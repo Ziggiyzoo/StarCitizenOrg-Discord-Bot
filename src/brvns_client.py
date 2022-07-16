@@ -17,7 +17,7 @@ class BrvnsClient(Client):
         :raises TypeError
         """
 
-        print('We have logged in as {0.user}'.format(self))
+        print(f"We have logged in as {self.user}")
 
     async def on_message(self, message):
         """
