@@ -1,16 +1,21 @@
 [tool.poetry]
-name = "python-template"
+name = "brvns-discord"
 version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+description = "A Discord bot for the Blue Ravens Org."
+authors = [
+    "David \"Ziggiyzoo\" <you@example.com>",
+    "Renegade-Master <renegade.master.dev@protonmail.com>"
+]
 
 [tool.poetry.dependencies]
-python = ">=3.8.0,<3.9"
+python = ">=3.8.0,<3.10"
 numpy = "^1.22.2"
 replit = "^3.2.4"
 discord = "^1.7.3"
+pylint = "^2.14.4"
 
 [tool.poetry.dev-dependencies]
+pytest = "^7.1.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
