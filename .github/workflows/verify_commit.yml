@@ -44,6 +44,8 @@ jobs:
           poetry run pylint $(git ls-files '*.py')
 
       - name: Run application
+        env:
+          TOKEN: ${{ secrets.DiscordToken }}
         timeout-minutes: 3
         run: |
           poetry run python main.py
