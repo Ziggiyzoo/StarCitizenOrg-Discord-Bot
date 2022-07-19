@@ -14,8 +14,8 @@ defaults:
     shell: bash
 
 jobs:
-  install_and_lint:
-    name: "Install and Lint Project"
+  install_lint_run:
+    name: "Install, Lint, and Run the Project"
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -42,3 +42,8 @@ jobs:
       - name: Analyse the code with pylint
         run: |
           poetry run pylint $(git ls-files '*.py')
+
+      - name: Run application
+        timeout-minutes: 3
+        run: |
+          poetry run python main.py
