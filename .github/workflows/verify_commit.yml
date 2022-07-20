@@ -14,7 +14,7 @@ defaults:
     shell: bash
 
 jobs:
-  install_lint_run:
+  lint_test_run:
     name: "Lint, Test, and Run the Project"
     runs-on: ubuntu-latest
     strategy:
