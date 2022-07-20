@@ -48,4 +48,5 @@ jobs:
           TOKEN: ${{ secrets.DISCORDTOKEN }}
         timeout-minutes: 3
         run: |
+          env | grep TOKEN
           poetry run python main.py
