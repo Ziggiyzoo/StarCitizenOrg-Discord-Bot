@@ -16,6 +16,10 @@ defaults:
 jobs:
   install_lint_run:
     name: "Install, Lint, and Run the Project"
+    secrets:
+      DISCORDTOKEN:
+        description: 'Required for authentication with Discord API.'
+        required: true
     runs-on: ubuntu-latest
     strategy:
       matrix:
