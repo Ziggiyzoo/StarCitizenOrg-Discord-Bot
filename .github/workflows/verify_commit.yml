@@ -50,7 +50,7 @@ jobs:
       - name: Run application
         env:
           TOKEN: ${{ secrets.DISCORDTOKEN }}
-        timeout-minutes: 3
+        timeout-minutes: 2
         continue-on-error: true
         run: |
           poetry run python main.py
