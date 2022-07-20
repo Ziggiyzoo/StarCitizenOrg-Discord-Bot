@@ -45,7 +45,7 @@ jobs:
 
       - name: Run application
         env:
-          TOKEN: ${{ secrets.DiscordToken }}
+          TOKEN: ${{ secrets.discord_env }}
         timeout-minutes: 3
         run: |
           poetry run python main.py
