@@ -14,7 +14,9 @@ class SignupStringTestCase(unittest.TestCase):
         """
         Testcase to validate that the correct string format is returned when sign up command is used
         """
-        expected: str = "Hello Ziggiyzoo. To signup to the Blue Ravens Org, visit: https://robertsspaceindustries.com/orgs/BRVNS."
+        expected_string = "Hello Ziggiyzoo. "
+        expected_string += "To signup to the Blue Ravens Org, visit: https://robertsspaceindustries.com/orgs/BRVNS."
+        expected: str = expected_string
         actual: str = BrvnsLogic.signup_string("Ziggiyzoo")
 
         self.assertEqual(actual, expected)

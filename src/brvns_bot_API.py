@@ -11,6 +11,7 @@ class BrvnsBot(Bot):
     BRVNS Discord Client
     """
     bot = Bot()
+    brvns_logic = BrvnsLogic()
 
     @bot.event
     async def on_ready(self):
@@ -25,7 +26,7 @@ class BrvnsBot(Bot):
         Sign Up ling slash command
         """
         author_name = name or ctx.author.name
-        await ctx.respond(BrvnsLogic.signup_string(author_name))
+        await ctx.respond(self.brvns_logic.signup_string(author_name))
 
 
     bot.run(environ['TOKEN'])

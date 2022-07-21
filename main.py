@@ -3,7 +3,6 @@ BRVNS Discord Bot
 """
 
 from os import environ
-
 from src.brvns_bot_api import BrvnsBot
 
 # Main Method
