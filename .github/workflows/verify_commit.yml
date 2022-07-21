@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - develop
+      - production
   pull_request:
     branches:
-      - develop
+      - production
 
 defaults:
   run:
@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ "3.7", "3.9", "3.10" ]
+        python-version: [ "3.8", "3.9", "3.10" ]
         poetry-version: [ "1.1.14" ]
     steps:
       - uses: actions/checkout@v3
