@@ -4,7 +4,7 @@ BRVNS Discord Bot
 
 from os import environ
 
-from src.brvns_client_API import BrvnsClient
+from src.brvns_client_API import BrvnsBot
 
 # Main Method
 if __name__ == "__main__":
@@ -12,5 +12,5 @@ if __name__ == "__main__":
     if "TOKEN" not in environ or environ['TOKEN'] == "":
         raise ValueError("No value for Environment Variable 'TOKEN' supplied. Exiting...")
 
-    Client: BrvnsClient = BrvnsClient()
-    Client.run(environ['TOKEN'])
+    Bot: BrvnsBot = BrvnsBot()
+    Bot.run(environ['TOKEN'])
