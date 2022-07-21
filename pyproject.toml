@@ -8,8 +8,8 @@ authors = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.7.2,<=3.10.99"
-discord = "^1.7.3"
+python = ">=3.8.0,<=3.10.99"
+py-cord = "^2.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
