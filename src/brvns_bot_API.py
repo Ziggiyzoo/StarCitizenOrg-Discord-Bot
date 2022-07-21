@@ -2,9 +2,9 @@
 BRVNS Discord Bot Object
 """
 
+from os import environ
 from discord import Bot
 from src.brvns_bot_logic import BrvnsLogic
-from os import environ
 
 class BrvnsBot(Bot):
     """
@@ -13,11 +13,17 @@ class BrvnsBot(Bot):
     bot = Bot()
 
     @bot.event
-    async def on_ready():
-        print(f"Bot is ready and online")
+    async def on_ready(self):
+        """
+        Bot Ready
+        """
+        print(f"{self.bot.name} is ready and online")
 
     @bot.slash_command()
-    async def sign_up(ctx, name: str = None):
+    async def sign_up(self, ctx, name: str = None):
+        """
+        Sign Up ling slash command
+        """
         author_name = name or ctx.author.name
         await ctx.respond(BrvnsLogic.signup_string(author_name))
 

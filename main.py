@@ -4,7 +4,7 @@ BRVNS Discord Bot
 
 from os import environ
 
-from src.brvns_client_API import BrvnsBot
+from src.brvns_bot_api import BrvnsBot
 
 # Main Method
 if __name__ == "__main__":
