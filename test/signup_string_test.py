@@ -13,6 +13,7 @@ class SignupStringTestCase(unittest.TestCase):
     Signup String Testcase Class
     """
     brvns_config = BrvnsConfig()
+    brvns_logic = BrvnsLogic()
 
     def test_signup_string(self):
         """
@@ -20,7 +21,7 @@ class SignupStringTestCase(unittest.TestCase):
         """
         message_content = self.brvns_config.get_config("StringsSection", "string.signup_string")
         expected: str = f"Hello Ziggiyzoo. {message_content}"
-        actual: str = BrvnsLogic.signup_string("Ziggiyzoo")
+        actual: str = self.brvns_logic.signup_string("Ziggiyzoo")
 
         self.assertEqual(actual, expected)
 

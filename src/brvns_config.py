@@ -16,3 +16,9 @@ class BrvnsConfig():
         Get the config from the .ini file
         """
         return self.config.get(section, key)
+
+    def set_config(self, section, key, value):
+        """
+        Set a config value. This does nothing.. for now.. I doubt it ever will.
+        """
+        return True
