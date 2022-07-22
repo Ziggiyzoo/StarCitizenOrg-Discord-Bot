@@ -3,6 +3,8 @@ Test to verify that the test framework is running.
 """
 
 import unittest
+import sys
+sys.path.insert(1,"~/src/")
 from src.brvns_bot_logic import BrvnsLogic
 from src.brvns_config import BrvnsConfig
 
