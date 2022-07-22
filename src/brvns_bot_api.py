@@ -1,35 +1,27 @@
 """
 BRVNS Discord Bot Object
 """
-from discord import Bot
+import discord
 from src.brvns_bot_logic import BrvnsLogic
 
-class BrvnsBot(Bot):
+class BrvnsBot(discord.Bot):
     """
-    BRVNS Discord Client
+    BRVNS Discord Bot
     """
+    brvns_logic = BrvnsLogic()
 
-    __slots__ = ("bot", "brvns_logic")
-    def __init__(self):
-        super().__init__()
-        self.brvns_logic = BrvnsLogic()
-        self.bot = Bot()
+    def __init_subclass__(cls) -> None:
+        return super().__init_subclass__()
 
-
-    def run(self, token):
-        """
-        Run the bot
-        """
-        self.bot.run(token)
-
-    @bot.event
     async def on_ready(self):
         """
         Bot Ready
         """
-        print(f"{self.bot.name} is ready and online")
+        print(f"The Bot, {self.user.name}, {self.user.id} is ready and online!")
+        print(f"Bot Guilds: {self.guilds}")
+        print(f"Guild Ids: {self.guild_id_list}")
 
-    @bot.slash_command()
+    @discord.slash_command(name = "sign-up", description = "Display the link to the RSI Org Page.")
     async def sign_up(self, ctx):
         """
         Sign Up string slash command
@@ -37,10 +29,9 @@ class BrvnsBot(Bot):
         author_name: str = ctx.author.name
         await ctx.respond(self.brvns_logic.signup_string(author_name))
 
-    @bot.command()
+    @discord.slash_command(name = "ping", description = "Return the bot latency.")
     async def ping(self, ctx):
         """
         Send bot ping
         """
-        await ctx.respond(f"Pong! Latency is {self.bot.latency}")
-        
+        await ctx.respond(f"Pong! Latency is {self.user.latency}")
