@@ -15,7 +15,7 @@ class BrvnsConfig():
         """
         Get the config from the .ini file
         """
-        return self.config.get(section, key)
+        return self.config[section][key]
 
     def set_config(self):
         """
