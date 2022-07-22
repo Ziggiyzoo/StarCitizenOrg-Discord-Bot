@@ -2,25 +2,19 @@
 BRVNS Discord Bot Logic
 """
 
-from src.brvns_resources import BrvnsResources
+import src.brvns_resources
 
-
+# pylint: disable=too-few-public-methods
 class BrvnsLogic():
     """
     BRVNS Bot Logic
     """
-    brvns_config = BrvnsResources()
+    brvns_resources = src.brvns_resources
 
     def signup_string(self, author_name):
         """
         Return signup string
         """
-        message_content = self.brvns_config.get_config("STRINGS", "signup_string")
-        signup_string = f'Hello {author_name}. {message_content}'
+        message_content: str = self.brvns_resources.get_config("STRINGS", "signup_string")
+        signup_string: str = f'Hello {author_name}. {message_content}'
         return str(signup_string)
-
-    def add_extra_public_method(self):
-        """
-        Satisfy pylints desire for control
-        """
-        return "We love you pylint"
