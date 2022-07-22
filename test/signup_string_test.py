@@ -19,7 +19,7 @@ class SignupStringTestCase(unittest.TestCase):
         """
         Testcase to validate that the correct string format is returned when sign up command is used
         """
-        expected = self.brvns_resources.get_config("STRINGS", "string.test_signup_string")
+        expected = self.brvns_resources.get_config("STRINGS", "test_signup_string")
         actual = self.brvns_logic.signup_string("Ziggiyzoo")
 
         self.assertEqual(actual, expected)

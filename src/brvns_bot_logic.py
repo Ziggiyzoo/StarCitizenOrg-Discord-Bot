@@ -15,7 +15,7 @@ class BrvnsLogic():
         """
         Return signup string
         """
-        message_content = self.brvns_config.get_config("STRINGS", "string.signup_string")
+        message_content = self.brvns_config.get_config("STRINGS", "signup_string")
         signup_string = f'Hello {author_name}. {message_content}'
         return str(signup_string)
 

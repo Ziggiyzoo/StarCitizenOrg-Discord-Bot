@@ -12,4 +12,4 @@ if __name__ == "__main__":
         raise ValueError("No value for Environment Variable 'TOKEN' supplied. Exiting...")
 
     Bot: BrvnsBot = BrvnsBot()
-    Bot.run(environ['TOKEN'])
+    Bot.bot.run(environ['TOKEN'])
