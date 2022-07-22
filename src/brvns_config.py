@@ -17,7 +17,7 @@ class BrvnsConfig():
         """
         return self.config.get(section, key)
 
-    def set_config(self, section, key, value):
+    def set_config(self):
         """
         Set a config value. This does nothing.. for now.. I doubt it ever will.
         """
