@@ -17,7 +17,7 @@ class ResourcesLogicTestCase(unittest.TestCase):
         Testcase to validate that the correct string format is returned
         """
         expected: str = "This is the test string."
-        actual: str = resources_logic.get_string("TEST", "string.string_test")
+        actual: str = resources_logic.get_string("TEST", "string.string_test", testing=True)
 
         self.assertEqual(actual, expected)
 
