@@ -19,7 +19,7 @@ class SlashLogicTestCase(unittest.TestCase):
         """
         Testcase to validate that the correct string format is returned when sign up command is used
         """
-        expected = self.resource.get_resource("TEST_EXPECTED", "string.test_signup_string")
+        expected = self.resource.get_resource("test", "TEST_EXPECTED", "string.test_signup_string")
         actual = self.logic.signup_string("Ziggiyzoo")
 
         self.assertEqual(actual, expected)

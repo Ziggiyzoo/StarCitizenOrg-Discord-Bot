@@ -12,7 +12,7 @@ class SlashBrvns(commands.Cog):
     def __init__(self, bot):
         self.bot: commands.Bot = bot
         self.logic: BrvnsLogic =  BrvnsLogic()
-        print("Init Slash Command Cog.")
+        print("Init Brvns Slash Command Cog")
 
     @commands.slash_command(name = "sign-up", description = "Display the link to the RSI Org Page.")
     async def sign_up(self, ctx):

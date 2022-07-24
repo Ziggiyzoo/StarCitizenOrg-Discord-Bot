@@ -10,7 +10,7 @@ class SlashGeneral(commands.Cog):
 
     def __init__(self, bot):
         self.bot: commands.Bot = bot
-        print("Init Slash Command Cog.")
+        print("Init General Slash Command Cog")
 
     @commands.slash_command(name = "ping", description = "Return the bot latency.")
     async def ping(self, ctx):

@@ -9,11 +9,11 @@ import os
 config = configparser.ConfigParser()
 
 thisfolder = os.path.dirname(os.path.abspath(__file__))
-inifile = os.path.join(thisfolder, "../resources/resources.ini")
-config.read(inifile)
 
-def get_resource( section, key):
+def get_resource(file, section, key):
     """
     Get the config from the .ini file
     """
+    inifile = os.path.join(thisfolder, f"../resources/{file}.ini")
+    config.read(inifile)
     return config.get(section, key)

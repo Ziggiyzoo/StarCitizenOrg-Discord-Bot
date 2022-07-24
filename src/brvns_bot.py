@@ -10,15 +10,9 @@ class BrvnsBot(Bot):
     """
     def __init__(self, debug_guilds):
         super().__init__(self, debug_guilds=debug_guilds)
-        self.add_cogs()
-        print("Init the bot")
-
-    def add_cogs(self):
-        """
-        Import cogs for the bot.
-        """
         self.load_extension("src.cogs", recursive=True)
         print("Cogs added.")
+        print("Init the bot")
 
     async def on_ready(self):
         """
