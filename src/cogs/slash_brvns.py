@@ -3,7 +3,7 @@ BRVNS Slash Cogs
 """
 from discord.ext import commands
 
-from src import BrvnsLogic
+from src.logic.slash_logic import BrvnsLogic
 
 
 class SlashBrvns(commands.Cog):
