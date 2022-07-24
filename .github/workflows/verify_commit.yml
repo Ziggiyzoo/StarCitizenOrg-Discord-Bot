@@ -60,7 +60,7 @@ jobs:
           TOKEN: ${{ secrets.DISCORDTOKEN }}
         timeout-minutes: 2
         run: |
-          buildah build \
+          buildah bud \
           --file image/brvns.Containerfile \
           --tag brvns/brvns-bot:gh-${{ steps.variables.outputs.datetime }} \
           --build-arg TOKEN=$TOKEN \
