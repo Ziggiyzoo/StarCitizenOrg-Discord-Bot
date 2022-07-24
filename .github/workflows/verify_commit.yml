@@ -24,6 +24,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Set Variables
+        id: variables
+        run: |
+          echo "::set-output name=datetime::$(date +%Y%m%dT%H%M%SZ)"
+          echo "::set-output name=userid::$(id -u)"
+          echo "::set-output name=groupid::$(id -g)"
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
         with:
@@ -46,6 +53,19 @@ jobs:
       - name: Run Unit Tests
         run: |
           poetry run python -m pytest
+
+      - name: Test Buildah Build
+        uses: redhat-actions/buildah-build@v2.10
+        env:
+          TOKEN: ${{ secrets.DISCORDTOKEN }}
+        timeout-minutes: 2
+        run: |
+          buildah build \
+          --file image/brvns.Containerfile \
+          --tag brvns/brvns-bot:gh-${{ steps.variables.outputs.datetime }} \
+          --build-arg TOKEN=$TOKEN \
+          .
+          
 
       - name: Run application
         env:
