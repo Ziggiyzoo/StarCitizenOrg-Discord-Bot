@@ -4,6 +4,7 @@ BRVNS Discord Bot Logic
 
 from src.logic import resources_logic
 
+
 # pylint: disable=too-few-public-methods
 class BrvnsLogic():
     """

@@ -3,8 +3,8 @@ For each type of data in the resource.ini file. Test.
 """
 
 import unittest
-from src.logic import resources_logic
 
+from src.logic import resources_logic
 
 
 class ResourcesLogicTestCase(unittest.TestCase):
@@ -21,6 +21,7 @@ class ResourcesLogicTestCase(unittest.TestCase):
         actual: str = self.resource.get_resource("test", "TEST", "string.string_test")
 
         self.assertEqual(actual, expected)
+
 
 if __name__ == '__main__':
     unittest.main()

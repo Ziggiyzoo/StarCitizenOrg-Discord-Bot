@@ -3,11 +3,13 @@ BRVNS Bot API
 """
 from discord.ext.commands import Bot
 
+
 # pylint: disable=too-many-ancestors
 class BrvnsBot(Bot):
     """
     BRVNS Bot
     """
+
     def __init__(self, debug_guilds):
         super().__init__(self, debug_guilds=debug_guilds)
         self.load_extension("src.cogs", recursive=True)

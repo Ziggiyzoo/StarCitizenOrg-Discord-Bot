@@ -2,7 +2,8 @@
 BRVNS Discord Bot
 """
 from os import environ
-from src import BrvnsBot
+
+from src.brvns_bot import BrvnsBot
 
 # Main Method
 if __name__ == "__main__":
@@ -12,5 +13,5 @@ if __name__ == "__main__":
 
     token: str = environ['TOKEN']
 
-    Bot: BrvnsBot = BrvnsBot(debug_guilds = [997138062381416589])
+    Bot: BrvnsBot = BrvnsBot(debug_guilds=[997138062381416589])
     Bot.run(token)
