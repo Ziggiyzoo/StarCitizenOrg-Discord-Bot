@@ -23,6 +23,7 @@ jobs:
         poetry-version: [ "1.1.14" ]
     steps:
       - uses: actions/checkout@v3
+      - uses: redhat-actions/buildah-build@v2.10
 
       - name: Set Variables
         id: variables
@@ -55,7 +56,6 @@ jobs:
           poetry run python -m pytest
 
       - name: Test Buildah Build
-        uses: redhat-actions/buildah-build@v2.10
         env:
           TOKEN: ${{ secrets.DISCORDTOKEN }}
         timeout-minutes: 2
@@ -65,7 +65,6 @@ jobs:
           --tag brvns/brvns-bot:gh-${{ steps.variables.outputs.datetime }} \
           --build-arg TOKEN=$TOKEN \
           .
-          
 
       - name: Run application
         env:
