@@ -12,5 +12,5 @@ if __name__ == "__main__":
 
     token: str = environ['TOKEN']
 
-    Bot: BrvnsBot = BrvnsBot()
+    Bot: BrvnsBot = BrvnsBot(debug_guilds = [997138062381416589])
     Bot.run(token)
