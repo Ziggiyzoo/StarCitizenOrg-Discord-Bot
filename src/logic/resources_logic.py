@@ -23,7 +23,7 @@ def get_resource(file: str, section: str, key: str, testing: bool = False) -> st
 
     value: str = config.get(section, key)
 
-    if value is not None and value is not "":
+    if value is not None and value != "":
         return value
 
     return "VALUE_NOT_FOUND"
@@ -36,5 +36,5 @@ def get_string(section: str, key: str, testing: bool = False):
 
     if testing:
         return get_resource("strings", section, key, testing)
-    else:
-        return get_resource("strings", section, key)
+
+    return get_resource("strings", section, key)
