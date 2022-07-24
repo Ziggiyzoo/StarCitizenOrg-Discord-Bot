@@ -1,9 +1,13 @@
 """
 BRVNS Slash Cogs
 """
+import logging
+
 from discord.ext import commands
 
-from src.logic.slash_logic import BrvnsLogic
+from src.logic import slash_logic
+
+logger = logging.getLogger(__name__)
 
 
 class SlashBrvns(commands.Cog):
@@ -13,8 +17,8 @@ class SlashBrvns(commands.Cog):
 
     def __init__(self, bot):
         self.bot: commands.Bot = bot
-        self.logic: BrvnsLogic = BrvnsLogic()
-        print("Init Brvns Slash Command Cog")
+
+        logger.info("Init Brvns Slash Command Cog")
 
     @commands.slash_command(name="sign-up", description="Display the link to the RSI Org Page.")
     async def sign_up(self, ctx):
@@ -22,8 +26,8 @@ class SlashBrvns(commands.Cog):
         Sign Up string slash command
         """
         author_name: str = ctx.author.name
-        await ctx.respond(self.logic.signup_string(author_name))
-        print("Sent sign up string.")
+        await ctx.respond(slash_logic.signup_string(author_name))
+        logger.info("Sent sign up string.")
 
 
 def setup(bot):

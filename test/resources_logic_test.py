@@ -11,14 +11,13 @@ class ResourcesLogicTestCase(unittest.TestCase):
     """
     Signup String Testcase Class
     """
-    resource = resources_logic
 
     def test_get_string_resource(self):
         """
         Testcase to validate that the correct string format is returned
         """
         expected: str = "This is the test string."
-        actual: str = self.resource.get_resource("test", "TEST", "string.string_test")
+        actual: str = resources_logic.get_string("TEST", "string.string_test")
 
         self.assertEqual(actual, expected)
 
