@@ -1,7 +1,12 @@
 """
 General Slash Cogs
 """
+import logging
+
 from discord.ext import commands
+
+logger = logging.getLogger(__name__)
+
 
 class SlashGeneral(commands.Cog):
     """
@@ -10,15 +15,16 @@ class SlashGeneral(commands.Cog):
 
     def __init__(self, bot):
         self.bot: commands.Bot = bot
-        print("Init General Slash Command Cog")
+        logger.info("Init General Slash Command Cog")
 
-    @commands.slash_command(name = "ping", description = "Return the bot latency.")
+    @commands.slash_command(name="ping", description="Return the bot latency.")
     async def ping(self, ctx):
         """
         Send bot ping
         """
         await ctx.respond(f"Pong! Latency is {round(self.bot.latency * 100, 2)} ms")
-        print("Sent Ping")
+        logger.info("Sent Ping")
+
 
 def setup(bot):
     """

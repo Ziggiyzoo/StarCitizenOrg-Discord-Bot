@@ -9,10 +9,10 @@
 Specific requirements depend on the installation type. This project can be deployed both using Poetry for Python, or by
 using the Dockerfiles in the repo.
 
-| Method of Installation | Requirements                                            |
-|------------------------|---------------------------------------------------------|
-| Python                 | 'Python >=3.8 <=3.10' AND 'Poetry'                      |
-| Docker                 | 'Docker Engine and Client' (Optional: 'Docker-Compose') |
+| Method of Installation | Requirements                                                        |
+|------------------------|---------------------------------------------------------------------|
+| Python                 | 'Python >=3.8 <=3.10' AND 'Poetry'                                  |
+| Docker/Podman          | 'Docker Engine and Client' OR 'Podman' (Optional: 'Docker-Compose') |
 
 ## Bot Installation
 

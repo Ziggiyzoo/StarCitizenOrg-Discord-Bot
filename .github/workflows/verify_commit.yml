@@ -14,8 +14,58 @@ defaults:
     shell: bash
 
 jobs:
-  lint_test_run:
-    name: "Lint, Test, and Run the Project"
+  lint_application:
+    name: "Lint the Project"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ "3.9" ]
+        poetry-version: [ "1.1.14" ]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Load cached Poetry installation
+        uses: actions/cache@v2
+        with:
+          path: ~/.local
+          key: poetry-0  # increment to reset cache
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: ${{ matrix.poetry-version }}
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: |
+          poetry install
+
+      - name: Analyse the code with pylint
+        run: |
+          poetry run pylint $(git ls-files '*.py')
+
+      - name: Analyse the code with flake8
+        run: |
+          poetry run flake8 $(git ls-files '*.py')
+
+  test_application:
+    name: "Test the Project"
+    needs:
+      - lint_application
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -29,23 +79,111 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install Poetry
-        uses: abatilo/actions-poetry@v2.1.3
+      - name: Load cached Poetry installation
+        uses: actions/cache@v2
         with:
-          poetry-version: ${{ matrix.poetry-version }}
+          path: ~/.local
+          key: poetry-0  # increment to reset cache
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: ${{ matrix.poetry-version }}
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: |
-          poetry update
           poetry install
-
-      - name: Analyse the code with pylint
-        run: |
-          poetry run pylint $(git ls-files '*.py')
 
       - name: Run Unit Tests
         run: |
           poetry run python -m pytest
+
+  build_application:
+    name: "Build the Project"
+    needs:
+      - lint_application
+      - test_application
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Variables
+        id: variables
+        run: |
+          echo "::set-output name=datetime::$(date +%Y%m%dT%H%M%SZ)"
+          echo "::set-output name=userid::$(id -u)"
+          echo "::set-output name=groupid::$(id -g)"
+
+      - name: Test Buildah Build
+        env:
+          TOKEN: ${{ secrets.DISCORDTOKEN }}
+        timeout-minutes: 2
+        run: |
+          buildah bud \
+          --file image/brvns.Containerfile \
+          --tag brvns/brvns-bot:gh-${{ steps.variables.outputs.datetime }} \
+          --build-arg TOKEN=$TOKEN \
+          .
+
+  run_application:
+    name: "Run the Project"
+    needs:
+      - lint_application
+      - test_application
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ "3.8", "3.9", "3.10" ]
+        poetry-version: [ "1.1.14" ]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Variables
+        id: variables
+        run: |
+          echo "::set-output name=datetime::$(date +%Y%m%dT%H%M%SZ)"
+          echo "::set-output name=userid::$(id -u)"
+          echo "::set-output name=groupid::$(id -g)"
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Load cached Poetry installation
+        uses: actions/cache@v2
+        with:
+          path: ~/.local
+          key: poetry-0  # increment to reset cache
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: ${{ matrix.poetry-version }}
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: |
+          poetry install
 
       - name: Run application
         env:
