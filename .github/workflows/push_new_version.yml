@@ -1,0 +1,43 @@
+name: Push New Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "The semantic version to assign to the new Tag"
+        required: true
+        default: "latest"
+#  push:
+#    branches:
+#      - production
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  tag_repo:
+    name: "Add a Tag to the Repo"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create a new Tag
+        run: |
+          git tag -a v${{ github.event.inputs.tag }} HEAD -m "BRVNS Discord Bot: v${{ github.event.inputs.tag }}"
+
+      - name: Push new Tag
+        run: git push --tags
+
+  build_and_push_image:
+    name: "Build the new Image"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Buildah Build
+        run: |
+          buildah bud \
+          --file image/brvns.Containerfile \
+          --tag ghcr.io/ziggiyzoo/brvns-discord-bot:${{ github.event.inputs.tag }} \
+          .

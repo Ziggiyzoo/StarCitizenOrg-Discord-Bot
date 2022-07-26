@@ -23,10 +23,14 @@ Follow the instructions according to your chosen installation method.
    <b>Python</b>
 </summary>
 
-1. Initialise the Poetry environment by executing the following Poetry commands:
+### Running
+
+1. Initialise the Poetry environment by executing the following Poetry command:
 
     ```shell
-    poetry update && poetry install
+    export TOKEN=<DISCORD_API_TOKEN>
+
+    poetry install
     ```
 
 2. Run the application by executing the following Poetry command:
@@ -42,7 +46,36 @@ Follow the instructions according to your chosen installation method.
    <b>Docker</b>
 </summary>
 
+### Building
+
 //ToDo
+
+### Running
+
+1. Ensure Docker or Podman is installed.
+2. Download your desired version of the `ziggiyzoo/brvns-discord-bot` image:
+   
+   ```shell
+   # With Docker
+   docker pull ghcr.io/ziggiyzoo/brvns-discord-bot:<tag>
+   
+   # With Podman
+   podman pull ghcr.io/ziggiyzoo/brvns-discord-bot:<tag>
+   ```
+
+3. Run the downloaded image by executing the following command:
+
+   ```shell
+   # With Docker
+   docker run --detach \
+      --env TOKEN=<DISCORD_API_TOKEN> \
+      ghcr.io/ziggiyzoo/brvns-discord-bot:<tag>
+
+   # With Podman
+   docker run --detach \
+      --env TOKEN=<DISCORD_API_TOKEN> \
+      ghcr.io/ziggiyzoo/brvns-discord-bot:<tag>
+   ```
 
 </details>
 
