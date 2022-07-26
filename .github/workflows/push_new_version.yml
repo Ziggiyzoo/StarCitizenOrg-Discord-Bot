@@ -6,9 +6,18 @@ on:
       tag:
         description: "The semantic version to assign to the new Tag"
         required: true
-  pull_request:
-    branches:
-      - production
+        type: string
+      dryrun:
+        description: "Run the action without pushing anything"
+        required: true
+        type: boolean
+        default: true
+        options:
+          - "true"
+          - "false"
+#  pull_request:
+#    branches:
+#      - production
 #  push:
 #    branches:
 #      - production
