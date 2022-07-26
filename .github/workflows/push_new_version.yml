@@ -6,7 +6,6 @@ on:
       tag:
         description: "The semantic version to assign to the new Tag"
         required: true
-        default: "latest"
   pull_request:
     branches:
       - production
