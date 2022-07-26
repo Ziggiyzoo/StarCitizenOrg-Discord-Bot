@@ -2,10 +2,11 @@
 BRVNS Bot API
 """
 import logging
+from os import environ
 
 from discord.ext.commands import Bot
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(environ['LOGGER_NAME'])
 
 
 # pylint: disable=too-many-ancestors
@@ -30,3 +31,6 @@ class BrvnsBot(Bot):
             Bot: {self.user.name}
             Guilds: {self.guilds}
             Cogs: {self.cogs}""".strip())
+
+    async def on_message(self, ctx):
+        logger.info("Catching those annoying command prefix errors")
