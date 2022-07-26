@@ -5,7 +5,9 @@ import logging
 
 from discord.ext import commands
 
-logger = logging.getLogger(__name__)
+from os import environ
+
+logger = logging.getLogger(environ['LOGGER_NAME'])
 
 
 class SlashGeneral(commands.Cog):

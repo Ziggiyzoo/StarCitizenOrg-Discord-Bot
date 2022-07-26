@@ -5,9 +5,12 @@ import logging
 
 from discord.ext import commands
 
+from os import environ
+
 from src.logic import slash_logic
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(environ['LOGGER_NAME'])
+
 
 
 class SlashBrvns(commands.Cog):
@@ -17,7 +20,6 @@ class SlashBrvns(commands.Cog):
 
     def __init__(self, bot):
         self.bot: commands.Bot = bot
-
         logger.info("Init Brvns Slash Command Cog")
 
     @commands.slash_command(name="sign-up", description="Display the link to the RSI Org Page.")
