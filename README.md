@@ -83,4 +83,4 @@ Follow the instructions according to your chosen installation method.
 
 This is an unordered list of third-party libraries that helped to make this application possible:
 
-- [Python Discord](https://pypi.org/project/python-discord/)
+- [Pycord](https://pycord.dev/)
