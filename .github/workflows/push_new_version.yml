@@ -12,15 +12,6 @@ on:
         required: true
         type: boolean
         default: true
-        options:
-          - "true"
-          - "false"
-#  pull_request:
-#    branches:
-#      - production
-#  push:
-#    branches:
-#      - production
 
 defaults:
   run:
@@ -38,7 +29,12 @@ jobs:
           git tag -a v${{ github.event.inputs.tag }} HEAD -m "BRVNS Discord Bot: v${{ github.event.inputs.tag }}"
 
       - name: Push new Tag
-        run: git push --tags
+        run: |
+          if [[ "${{ github.event.inputs.dryrun }}" == "true" ]]; then
+            git push --tags
+          else
+            printf "DryRun. Not pushing Git Tag\n"
+          fi
 
   build_and_push_image:
     name: "Build the new Image"
@@ -52,3 +48,11 @@ jobs:
           --file image/brvns.Containerfile \
           --tag ghcr.io/ziggiyzoo/brvns-discord-bot:${{ github.event.inputs.tag }} \
           .
+
+      - name: Push new Image Tag
+        run: |
+          if [[ "${{ github.event.inputs.dryrun }}" == "true" ]]; then
+            printf "Pushing Image Tag\n"
+          else
+            printf "DryRun. Not pushing Git Tag\n"
+          fi
