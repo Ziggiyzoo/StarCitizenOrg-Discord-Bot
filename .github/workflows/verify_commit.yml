@@ -125,14 +125,10 @@ jobs:
           echo "::set-output name=groupid::$(id -g)"
 
       - name: Test Buildah Build
-        env:
-          TOKEN: ${{ secrets.DISCORDTOKEN }}
-        timeout-minutes: 2
         run: |
           buildah bud \
           --file image/brvns.Containerfile \
-          --tag brvns/brvns-bot:gh-${{ steps.variables.outputs.datetime }} \
-          --build-arg TOKEN=$TOKEN \
+          --tag ghcr.io/ziggiyzoo/brvns-discord-bot:gh-${{ steps.variables.outputs.datetime }} \
           .
 
   run_application:
