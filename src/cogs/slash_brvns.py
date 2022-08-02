@@ -7,7 +7,7 @@ from discord.ext import commands
 
 from os import environ
 
-from src.logic import slash_logic
+from src.logic import slash_logic, database_connection
 
 logger = logging.getLogger(environ['LOGGER_NAME'])
 
@@ -36,4 +36,7 @@ def setup(bot):
     """
     Add cog to bot
     """
-    bot.add_cog(SlashBrvns(bot))
+    try:
+        bot.add_cog(SlashBrvns(bot))
+    except Exception as e:
+        logger.error(e)

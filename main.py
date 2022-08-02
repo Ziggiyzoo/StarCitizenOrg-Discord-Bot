@@ -1,8 +1,10 @@
 """
 BRVNS Discord Bot
 """
-import logging
 from os import environ
+
+import logging
+import discord
 
 from src.brvns_bot import BrvnsBot
 
@@ -21,7 +23,10 @@ if __name__ == "__main__":
 
         token: str = environ['TOKEN']
         Bot: BrvnsBot = BrvnsBot(debug_guilds=[997138062381416589])
-        Bot.run(token)
+        try:
+            Bot.run(token)
+        except discord.ext.commands.errors.MissingPermissions as missing_permissions_error:
+            logger.info(missing_permissions_error)
 
     except ValueError as e:
         logger.error(e)

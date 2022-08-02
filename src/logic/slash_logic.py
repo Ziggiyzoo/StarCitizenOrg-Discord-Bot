@@ -3,22 +3,13 @@ BRVNS Discord Bot Logic
 """
 import logging
 
-import firebase_admin
-
-from firebase_admin import credentials, firestore
-
 from os import environ
 
-from src.logic import resources_logic
+from src.logic import resources_logic, database_connection
 
 logger = logging.getLogger(environ['LOGGER_NAME'])
 
-cred = credentials.Certificate(environ['FIRESTORE_SECRET'])
-firebase_admin.initialise_app(cred)
-db = firestore.client()
-logger.info("DB Connection created")
-
-def signup_string(author_name: str):
+async def signup_string(author_name: str):
     """
     Return signup string
     """
@@ -26,3 +17,20 @@ def signup_string(author_name: str):
     string_value: str = f"Hello {author_name}. {message_content}"
 
     return string_value
+
+async def prepare_commands_to_update(guild_id:int , commands_to_enable: list, enable: bool):
+    """
+    Prepare the list of commands
+    """
+    try:
+        current_commands: dict = await database_connection.get_enabled_commands(guild_id)
+        skip = False
+    except Exception as e:
+        logger.warn(e)
+        skip = True
+
+    if not skip:
+        for each in commands_to_enable:
+            current_commands[each] = enable
+        
+        await database_connection.update_enabled_commands(guild_id, current_commands)

@@ -2,8 +2,10 @@
 General Slash Cogs
 """
 import logging
+import discord
 
 from discord.ext import commands
+from discord.ext.pages import Paginator, Page
 
 from os import environ
 
@@ -27,9 +29,11 @@ class SlashGeneral(commands.Cog):
         await ctx.respond(f"Pong! Latency is {round(self.bot.latency * 100, 2)} ms")
         logger.info("Sent Ping")
 
-
 def setup(bot):
     """
     Add cog to bot
     """
-    bot.add_cog(SlashGeneral(bot))
+    try:
+        bot.add_cog(SlashGeneral(bot))
+    except Exception as e:
+        logger.error(e)
