@@ -4,13 +4,11 @@ Use this file to read and write from the database.
 """
 import logging
 
-import firebase_admin
-
 import os
-
-from firebase_admin import credentials, firestore
-
 from os import environ
+
+import firebase_admin
+from firebase_admin import credentials, firestore
 
 logger = logging.getLogger(environ['LOGGER_NAME'])
 
@@ -50,6 +48,13 @@ async def add_guild(guild_id: int, guild_name: str):
         }
     })
 
+async def remove_guild(guild_id: int):
+    """
+    Remove the guild from the DB
+    """
+    doc_ref = guild_col.document(f"{guild_id}")
+    doc_ref.delete()
+
 async def update_enabled_commands(guild_id: int, command_states: dict):
     """
     Updates the enabled commands
@@ -75,5 +80,3 @@ async def get_enabled_commands(guild_id: int):
     if doc.exists:
         doc_obj: dict = doc.to_dict()
         return doc_obj.get("enabled_commands")
-    else:
-        raise Exception(f"Guild Doc {guild_id} does not Exist")
