@@ -23,10 +23,8 @@ if __name__ == "__main__":
 
         token: str = environ['TOKEN']
         Bot: BrvnsBot = BrvnsBot(debug_guilds=[997138062381416589])
-        try:
-            Bot.run(token)
-        except discord.ext.commands.errors.MissingPermissions as missing_permissions_error:
-            logger.info(missing_permissions_error)
+        Bot.run(token)
+
 
     except ValueError as e:
         logger.error(e)

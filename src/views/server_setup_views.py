@@ -28,13 +28,23 @@ class ServerCreationView(View):
 
         if success:
             await interaction.response.send_message("Guild Added to the DB")
+            button.disable()
         else:
             await interaction.response.send_message("There was an error adding the guild to the DB. Please try again, or contact a Bot Developer for assistance")
     
     @discord.ui.button(label = "Remove", style = discord.ButtonStyle.red, row = 2)
-    async def remove_guild(self, button, interaction):
-        # Message Ziggiyzoo to remove the collection
-        # It is annoying to delete from code/
+    async def remove_guild(self, button, interaction: discord.Interaction):
+        try:
+            await database_connection.remove_guild(interaction.guild_id)
+            success = True
+        except Exception as e:
+            logger.error(e)
+            success = False
+
+        if success:
+            await interaction.response.send_message("Guild Removed from the DB")
+        else:
+            await interaction.response.send_message("There was an error removing the guild from the DB. Please try again, or contact a Bot Developer for assistance")
 
         await interaction.response.send_message("Please contact a bot developer to have your guild removed")
 
@@ -71,24 +81,32 @@ class ServerCommandSelectionView(View):
         ],
         row = 0
     )
-    async def callback(self, select, interaction):
+    async def callback(self, select, interaction: discord.Interaction):
         """
         The Select menu
         """
-        logger.info(select.values)
-        for value in select.values:
-            if value not in self.selected_commands:
-                self.selected_commands.append(value)
-            else:
-                logger.info("User has already added this to their commands list")
-                await interaction.response.send_message(content = f"You have already added {value} to the list of enabled commands!", view = self)
+        if not self.selected_commands:
+            for value in select.values:
+                if value not in self.selected_commands:
+                    self.selected_commands.append(value)
+                else:
+                    self.selected_commands.remove(value)
+            interaction.response.send_message(f"Selected Commands: {self.selected_commands}")
+        else:
+            for value in select.values:
+                if value not in self.selected_commands:
+                    self.selected_commands.append(value)
+                else:
+                    self.selected_commands.remove(value)
+            interaction.response.edit_message(f"Selected Commands: {self.selected_commands}")
+            
 
-    @discord.ui.button(label = "Confirm", style = discord.ButtonStyle.green, row = 1)
-    async def confirm_button(self, button, interaction):
+    @discord.ui.button(label = "Enable", style = discord.ButtonStyle.green, row = 1)
+    async def enable_button(self, button, interaction: discord.Interaction):
         """
         Confirm the selection of the above menu.
         """
-        await interaction.response.send_message(f"Confirmed Command Selection. You have selected: {self.selected_commands}")
+        await interaction.response.edit_message(f"Confirmed Command Selection. You have selected: {self.selected_commands}")
         try:
             await slash_logic.prepare_commands_to_update(interaction.guild_id, self.selected_commands, True)
             success = True
@@ -97,8 +115,28 @@ class ServerCommandSelectionView(View):
             success = False
         
         if success:
-            # await interaction.response.edit_message(content = "Commands have been enabled for this server!", view = self)
+            await interaction.response.edit_message(content = "Selected commands have been enabled for this server!")
+            button.disable()
+        else:
+            await interaction.response.edit_message(content = "Failed to update commands for this server! Try again, or contact a bot deloper for help.", view = self)
+            pass
+
+    @discord.ui.button(lable="Disable", style = discord.ButtonStyle.green, row = 1)
+    async def disable_button(self, button, interaction: discord.Interaction):
+        """
+        Disable the selected commands
+        """
+        await interaction.response.edit_message(f"Disabling the following commands: {self.selected_commands}")
+        try:
+            await slash_logic.prepare_commands_to_update(interaction.guild_id, self.selected_commands, False)
+            success = True
+        except Exception as e:
+            logger.error(e)
+            success = False
+        
+        if success:
+            await interaction.response.edit_message(content = "Selected commands have been disabled for this server!")
             pass
         else:
-            # await interaction.response.edit_message(content = "Failed to update commands for this server! Try again, or contact a bot deloper for help.", view = self)
+            await interaction.response.edit_message(content = "Failed to update commands for this server! Try again, or contact a bot deloper for help.", view = self)
             pass
