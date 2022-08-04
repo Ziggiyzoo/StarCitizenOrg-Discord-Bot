@@ -4,6 +4,8 @@ BRVNS Bot API
 import logging
 from os import environ
 
+import discord
+
 from discord.ext.commands import Bot
 
 logging.basicConfig(format="| %(asctime)s | %(levelname)-8s | [%(filename)s:%(lineno)d] | %(message)s")
@@ -22,8 +24,8 @@ class BrvnsBot(Bot):
 
         try:
             self.load_extension("src.cogs", recursive=True)
-        except Exception as e:
-            logger.error(e)
+        except discord.ext.commands.errors as discord_error:
+            logger.error(f"Error in discord: {discord_error}")
 
         logger.info("Cogs added")
 
@@ -38,6 +40,5 @@ class BrvnsBot(Bot):
                                                          | Cogs: {self.cogs}""".strip()
                         )
 
-    async def on_message(self, ctx):
-        logger.debug("Catching those annoying command prefix errors")
-        pass
+    async def on_message(self, message):
+        logger.debug(f"Prefixless Message Caught in: {message.guild_id}")
