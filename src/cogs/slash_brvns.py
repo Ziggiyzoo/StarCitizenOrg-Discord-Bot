@@ -3,15 +3,13 @@ BRVNS Slash Cogs
 """
 import logging
 
-from discord.ext import commands
-
 from os import environ
 
-from src.logic import slash_logic, database_connection
+from discord.ext import commands
+
+from src.logic import slash_logic
 
 logger = logging.getLogger(environ['LOGGER_NAME'])
-
-
 
 class SlashBrvns(commands.Cog):
     """
@@ -38,5 +36,5 @@ def setup(bot):
     """
     try:
         bot.add_cog(SlashBrvns(bot))
-    except Exception as e:
-        logger.error(e)
+    except Exception as error:
+        logger.error(error)

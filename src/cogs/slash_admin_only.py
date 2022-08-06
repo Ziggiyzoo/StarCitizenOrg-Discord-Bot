@@ -2,20 +2,22 @@
 BRVNS Admin Only Slash Cog
 """
 import logging
-import discord
-
-from discord.ext import commands 
-from discord.ext.pages  import Paginator, Page
-
-from src.logic import slash_logic, database_connection, resources_logic
-from src.views.server_setup_views import  ServerCreationView, ServerCommandSelectionView
 
 from os import environ
+
+import discord
+
+from discord.ext import commands
+from discord.ext.pages  import Paginator, Page
+
+from src.views.server_setup_views import  ServerCreationView, ServerCommandSelectionView
 
 logger = logging.getLogger(environ['LOGGER_NAME'])
 
 class SlashAdminOnly(commands.Cog):
-
+    """
+    Commands for admin use only
+    """
     def __init__(self, bot):
         self.bot: commands.Bot = bot
         logger.info("Init Slash Admin Only Cog")
@@ -41,10 +43,10 @@ class SlashAdminOnly(commands.Cog):
         # logger.info(f"Added guild: {ctx.guild_id} to the DB ")
 
 def setup(bot):
-    """ 
+    """
     Add cog to bot
     """
     try:
         bot.add_cog(SlashAdminOnly(bot))
-    except Exception as e:
-        logger.error(e)
+    except Exception as error:
+        logger.error(error)
