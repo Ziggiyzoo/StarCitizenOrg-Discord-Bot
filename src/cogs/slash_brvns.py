@@ -7,7 +7,9 @@ from os import environ
 
 from discord.ext import commands
 
-from src.logic import slash_logic
+from os import environ
+
+from src.logic import slash_logic, database_connection
 
 logger = logging.getLogger(environ['LOGGER_NAME'])
 

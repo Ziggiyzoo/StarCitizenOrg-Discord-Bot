@@ -32,5 +32,4 @@ async def prepare_commands_to_update(guild_id:int , commands_to_enable: list, en
     if not skip:
         for each in commands_to_enable:
             current_commands[each] = enable
-
         await database_connection.update_enabled_commands(guild_id, current_commands)

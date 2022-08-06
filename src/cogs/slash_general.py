@@ -2,10 +2,12 @@
 General Slash Cogs
 """
 import logging
+import discord
 
 from os import environ
 
 from discord.ext import commands
+from discord.ext.pages import Paginator, Page
 
 logger = logging.getLogger(environ['LOGGER_NAME'])
 
