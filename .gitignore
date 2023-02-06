@@ -277,4 +277,7 @@ cython_debug/
 # Ignore code-workspaces
 *.code-workspace
 
+# Ignore Things now being worked on.
+IGNORE
+
 # End of https://www.toptal.com/developers/gitignore/api/pycharm+iml,python,visualstudiocode

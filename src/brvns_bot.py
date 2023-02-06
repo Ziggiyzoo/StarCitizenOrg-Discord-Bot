@@ -34,11 +34,10 @@ class BrvnsBot(Bot):
         Bot On Ready
         """
         logger.info(type(self.cogs))
-        logger.info(f""" ____ READY ____
-                                                         | Bot: {self.user.name}
-                                                         | Guilds: {self.guilds}
-                                                         | Cogs: {self.cogs}""".strip()
-                        )
+        logger.info("BOT READY")
 
     async def on_message(self, message):
-        logger.debug(f"Prefixless Message Caught in: {message.guild_id}")
+        """
+        Ignore Prefixless Messages
+        """
+

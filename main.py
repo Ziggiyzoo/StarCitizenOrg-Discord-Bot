@@ -14,17 +14,13 @@ logger.setLevel(environ['LOGGER_LEVEL'])
 
 # Main Method
 if __name__ == "__main__":
-    try:
-        # Check for required environment variables
-        if "TOKEN" not in environ or environ['TOKEN'] == "":
 
-            raise ValueError("No value for Environment Variable 'TOKEN' supplied. Exiting...")
-        logger.info("Token found, running the bot")
+    # Check for required environment variables
+    if "TOKEN" not in environ or environ['TOKEN'] == "":
 
-        token: str = environ['TOKEN']
-        Bot: BrvnsBot = BrvnsBot(debug_guilds=[997138062381416589])
-        Bot.run(token)
+        raise ValueError("No value for Environment Variable 'TOKEN' supplied. Exiting...")
+    logger.info("Token found, running the bot")
 
-
-    except ValueError as e:
-        logger.error(e)
+    token: str = environ['TOKEN']
+    Bot: BrvnsBot = BrvnsBot(debug_guilds=[997138062381416589])
+    Bot.run(token)

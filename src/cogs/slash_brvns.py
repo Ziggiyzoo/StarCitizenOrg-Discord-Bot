@@ -28,7 +28,7 @@ class SlashBrvns(commands.Cog):
         Sign Up string slash command
         """
         author_name: str = ctx.author.name
-        await ctx.respond(slash_logic.signup_string(author_name))
+        await ctx.respond(await slash_logic.signup_string(author_name))
         logger.info("Sent sign up string.")
 
 
