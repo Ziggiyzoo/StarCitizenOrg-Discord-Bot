@@ -3,14 +3,13 @@ BRVNS RSI Lookup
 
 Use this class to look up information from the RSI website wirh webscraping
 """
-from os import environ
-
 import logging
 import requests
 
 RSI_CITIZENS_LINK = "https://robertsspaceindustries.com/citizens/"
 
-logger = logging.getLogger(environ["LOGGER_NAME"])
+logger = logging.getLogger()
+logger.setLevel("INFO")
 
 
 async def check_rsi_handle(rsi_handle):

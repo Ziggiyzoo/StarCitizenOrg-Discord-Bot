@@ -1,9 +1,6 @@
 """
 BRVNS Slash Cogs
 """
-
-from os import environ
-
 import logging
 import discord
 
@@ -11,7 +8,8 @@ from discord.ext import commands
 
 from src.logic import slash_logic, database_connection, rsi_lookup, resources_logic
 
-logger = logging.getLogger(environ["LOGGER_NAME"])
+logger = logging.getLogger()
+logger.setLevel("INFO")
 
 
 class SlashBrvns(commands.Cog):

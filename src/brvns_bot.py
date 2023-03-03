@@ -2,11 +2,11 @@
 BRVNS Bot API
 """
 import logging
-from os import environ
 
 from discord.ext.commands import Bot
 
-logger = logging.getLogger(environ["LOGGER_NAME"])
+logger = logging.getLogger()
+logger.setLevel("INFO")
 
 
 # pylint: disable=too-many-ancestors

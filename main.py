@@ -8,8 +8,8 @@ import logging
 from src.brvns_bot import BrvnsBot
 
 logging.basicConfig()
-logger = logging.getLogger(environ["LOGGER_NAME"])
-logger.setLevel(environ["LOGGER_LEVEL"])
+logger = logging.getLogger()
+logger.setLevel("INFO")
 
 # Main Method
 if __name__ == "__main__":

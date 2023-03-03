@@ -3,11 +3,10 @@ BRVNS Discord Bot Logic
 """
 import logging
 
-from os import environ
-
 from src.logic import resources_logic
 
-logger = logging.getLogger(environ["LOGGER_NAME"])
+logger = logging.getLogger()
+logger.setLevel("INFO")
 
 
 async def signup_string(author_name: str):

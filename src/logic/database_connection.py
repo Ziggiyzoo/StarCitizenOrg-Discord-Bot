@@ -5,12 +5,12 @@ Use this file to read and write from the database.
 import logging
 
 import os
-from os import environ
 
 import firebase_admin
 from firebase_admin import credentials, firestore, exceptions
 
-logger = logging.getLogger(environ["LOGGER_NAME"])
+logger = logging.getLogger()
+logger.setLevel("INFO")
 
 cred = credentials.Certificate(
     os.path.join(

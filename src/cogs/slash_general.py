@@ -1,13 +1,12 @@
 """
 General Slash Cogs
 """
-from os import environ
-
 import logging
 
 from discord.ext import commands
 
-logger = logging.getLogger(environ["LOGGER_NAME"])
+logger = logging.getLogger()
+logger.setLevel("INFO")
 
 
 class SlashGeneral(commands.Cog):
