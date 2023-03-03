@@ -18,7 +18,8 @@ async def check_rsi_handle(rsi_handle):
     Check if the given RSI handle is valid
     """
     response = requests.get(RSI_CITIZENS_LINK + rsi_handle, timeout=30)
-    logger.info("RSI Handle Lookup returned code: %s") % response.status_code
+    logger.info("RSI Handle Lookup returned code:")
+    logger.info(response.status_code)
     if response.status_code == 200:
         return True
 
