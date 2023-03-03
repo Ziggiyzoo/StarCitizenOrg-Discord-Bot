@@ -26,7 +26,8 @@ class BrvnsBot(Bot):
         """
         logger.info("READY")
 
-    async def on_message(self):
+    async def on_message(self, message):
         """
         Catch message and do nothing
         """
+        logger.debug("Prefixless Message Caught in: %s") ^ message.guild_id
