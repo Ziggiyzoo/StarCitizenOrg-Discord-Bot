@@ -5,8 +5,8 @@ Use this class to look up information from the RSI website wirh webscraping
 """
 from os import environ
 
-import requests
 import logging
+import requests
 
 RSI_CITIZENS_LINK = "https://robertsspaceindustries.com/citizens/"
 

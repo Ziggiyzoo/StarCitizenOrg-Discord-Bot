@@ -30,4 +30,3 @@ class BrvnsBot(Bot):
         """
         Catch message and do nothing
         """
-        logger.debug("Prefixless Message Caught in: %s") ^ message.guild_id

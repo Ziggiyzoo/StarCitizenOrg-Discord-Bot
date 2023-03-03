@@ -8,14 +8,12 @@ import logging
 import discord
 
 from discord.ext import commands
-from discord import Option
 
 from src.logic import slash_logic, database_connection, rsi_lookup, resources_logic
 
 logger = logging.getLogger(environ["LOGGER_NAME"])
 
 
-# pylint: disable=no-name-in-module
 class SlashBrvns(commands.Cog):
     """
     BRVNS Slash Cogs
@@ -35,10 +33,11 @@ class SlashBrvns(commands.Cog):
         author_name: str = ctx.author.name
         await ctx.respond(await slash_logic.signup_string(author_name))
 
+    # pylint: disable=no-member
     @commands.slash_command(
         name="bind_discord", descriptions="Bind discord user to RSI Account"
     )
-    async def bind_discord(self, ctx, rsi_handle: Option(str)):
+    async def bind_discord(self, ctx, rsi_handle: discord.Option(str)):
         """
         Verify if the discord member is a member of the RSI Org.
         """
