@@ -1,13 +1,11 @@
 """
 General Slash Cogs
 """
-import logging
-import discord
-
 from os import environ
 
+import logging
+
 from discord.ext import commands
-from discord.ext.pages import Paginator, Page
 
 logger = logging.getLogger(environ['LOGGER_NAME'])
 
@@ -33,7 +31,4 @@ def setup(bot):
     """
     Add cog to bot
     """
-    try:
-        bot.add_cog(SlashGeneral(bot))
-    except Exception as error:
-        logger.error(error)
+    bot.add_cog(SlashGeneral(bot))

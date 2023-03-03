@@ -32,7 +32,8 @@ class SlashAdminOnly(commands.Cog):
         if success:
             await ctx.response.send_message("Guild Added to the DB", ephemeral = True)
         else:
-            await ctx.response.send_message(resources_logic.get_string("ERROR_MESSAGES", "add_guild_error"), ephemeral = True)
+            await ctx.response.send_message(resources_logic.get_string("ERROR_MESSAGES", "add_guild_error"),
+                                             ephemeral = True)
 
     @commands.has_permissions(administrator=True)
     @commands.slash_command(name = "remove-guild", description="Used to remove the server, removing it to the DB.")
@@ -46,7 +47,8 @@ class SlashAdminOnly(commands.Cog):
         if success:
             await ctx.response.send_message("Guild Removed from the DB", ephemeral = True)
         else:
-            await ctx.response.send_message(resources_logic.get_string("ERROR_MESSAGES", "remove_guild_error"), ephemeral = True)
+            await ctx.response.send_message(resources_logic.get_string("ERROR_MESSAGES", "remove_guild_error"),
+                                             ephemeral = True)
 
 
 

@@ -3,7 +3,10 @@ BRVNS Config Utilities
 Use this method to return resources form the strings.ini file.
 """
 
-import configparser, os, string, random
+import configparser
+import os
+import string
+import random
 
 config = configparser.ConfigParser()
 
@@ -39,8 +42,11 @@ def get_string(section: str, key: str, testing: bool = False):
     return get_resource("strings", section, key)
 
 def create_random_string():
-    alphabet = list(string.ascii_letters)
-    letters = list()
+    """
+    Create a randomg string for verification
+    """
+    alphabet = [string.ascii_letters]
+    letters = []
     i = 0
     while i < 10:
         letters.append(alphabet[random.randint(0,51)])

@@ -46,8 +46,8 @@ async def add_guild(guild_id: int, guild_name: str, spectrum_id: str):
         })
         return True
     except exceptions.FirebaseError as exc:
-        logger.warn("Failure in adding guild to DB")
-        logger.info(exc)
+        logger.warning("Failure in adding guild to DB")
+        logger.warning(exc)
         return False
 
 async def remove_guild(guild_id: int):
@@ -59,8 +59,8 @@ async def remove_guild(guild_id: int):
         doc_ref.delete()
         return True
     except exceptions.FirebaseError as exc:
-        logger.warn("Failure in removing the guild from DB")
-        logger.info(exc)
+        logger.warning("Failure in removing the guild from DB")
+        logger.warning(exc)
         return False
 
 async def get_user_verification_info(user_id):
@@ -72,13 +72,13 @@ async def get_user_verification_info(user_id):
     try:
         user_doc = ref.get().to_dict()
     except exceptions.FirebaseError as exc:
-        logger.warn("Failure finding user information in Firebase")
-        logger.info(exc)
+        logger.warning("Failure finding user information in Firebase")
+        logger.warning(exc)
 
-    if user_doc != None:
+    if user_doc is not None:
         return user_doc
-    else:
-        return {'verification_step' : "NOT STARTED"}
+
+    return {'verification_step' : "NOT STARTED"}
 
 async def update_bound_user(user_id, new_value):
     """

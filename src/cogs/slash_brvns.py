@@ -1,14 +1,14 @@
 """
 BRVNS Slash Cogs
 """
-import logging, discord
 
 from os import environ
+
+import logging
+import discord
 
 from discord.ext import commands
 from discord import Option
-
-from os import environ
 
 from src.logic import slash_logic, database_connection, rsi_lookup, resources_logic
 
@@ -49,8 +49,9 @@ class SlashBrvns(commands.Cog):
             if success:
                 await ctx.author.add_roles(discord.utils.get(ctx.guild.roles, name="Verified"))
                 await database_connection.update_bound_user(author_id, "VERIFIED")
-                await ctx.respond("Thank you for binding your RSI and Discord accounts. You can now verify your membership" +
-                            " in this org with the slash command: '/verify-org'", ephemeral = True)
+                await ctx.respond("Thank you for binding your RSI and Discord accounts." +
+                                  " You can now verify your membership" +
+                                  " in this org with the slash command: '/verify-org'", ephemeral = True)
 
             else:
                 ctx.respond("Please Make sure that you have added the verification code to your RSI Profile BIO." +
@@ -72,7 +73,4 @@ def setup(bot):
     """
     Add cog to bot
     """
-    try:
-        bot.add_cog(SlashBrvns(bot))
-    except Exception as error:
-        logger.error(error)
+    bot.add_cog(SlashBrvns(bot))
