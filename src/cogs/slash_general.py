@@ -7,7 +7,7 @@ import logging
 
 from discord.ext import commands
 
-logger = logging.getLogger(environ['LOGGER_NAME'])
+logger = logging.getLogger(environ["LOGGER_NAME"])
 
 
 class SlashGeneral(commands.Cog):
@@ -26,6 +26,7 @@ class SlashGeneral(commands.Cog):
         """
         await ctx.respond(f"Pong! Latency is {round(self.bot.latency * 100, 2)} ms")
         logger.info("Sent Ping")
+
 
 def setup(bot):
     """

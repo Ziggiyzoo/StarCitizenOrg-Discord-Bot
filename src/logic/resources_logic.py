@@ -18,7 +18,9 @@ def get_resource(file: str, section: str, key: str, testing: bool = False) -> st
     Get a resource from the resources directory
     """
     if testing:
-        inifile: str = os.path.join(present_directory, f"../../test/resources/{file}.ini")
+        inifile: str = os.path.join(
+            present_directory, f"../../test/resources/{file}.ini"
+        )
     else:
         inifile: str = os.path.join(present_directory, f"../resources/{file}.ini")
     config.read(inifile)
@@ -41,6 +43,7 @@ def get_string(section: str, key: str, testing: bool = False):
 
     return get_resource("strings", section, key)
 
+
 def create_random_string():
     """
     Create a randomg string for verification
@@ -49,8 +52,8 @@ def create_random_string():
     letters = []
     i = 0
     while i < 10:
-        letters.append(alphabet[random.randint(0,51)])
-        i+=1
+        letters.append(alphabet[random.randint(0, 51)])
+        i += 1
 
     letters = "".join(letters)
 
