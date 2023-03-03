@@ -6,7 +6,8 @@ from os import environ
 
 from discord.ext.commands import Bot
 
-logger = logging.getLogger(environ['LOGGER_NAME'])
+logger = logging.getLogger(environ["LOGGER_NAME"])
+
 
 # pylint: disable=too-many-ancestors
 class BrvnsBot(Bot):
@@ -16,10 +17,7 @@ class BrvnsBot(Bot):
 
     def __init__(self, debug_guilds):
         super().__init__(self, debug_guilds=debug_guilds)
-
-
         self.load_extension("src.cogs", recursive=True)
-
         logger.info("Cogs added")
 
     async def on_ready(self):
@@ -28,6 +26,7 @@ class BrvnsBot(Bot):
         """
         logger.info("READY")
 
-
-    async def on_message(self, ctx):
-        logger.info("Catching those annoying command prefix errors")
+    async def on_message(self):
+        """
+        Catch message and do nothing
+        """
