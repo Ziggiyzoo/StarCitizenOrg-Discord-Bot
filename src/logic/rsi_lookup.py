@@ -3,13 +3,12 @@ BRVNS RSI Lookup
 
 Use this class to look up information from the RSI website wirh webscraping
 """
+from os import environ
 
 import requests
 import logging
 
-from os import environ
-
-rsi_citizens = "https://robertsspaceindustries.com/citizens/"
+RSI_CITIZENS_LINK = "https://robertsspaceindustries.com/citizens/"
 
 logger = logging.getLogger(environ["LOGGER_NAME"])
 
@@ -18,21 +17,21 @@ async def check_rsi_handle(rsi_handle):
     """
     Check if the given RSI handle is valid
     """
-    response = requests.get(rsi_citizens + rsi_handle)
+    response = requests.get(RSI_CITIZENS_LINK + rsi_handle, timeout=30)
     if response.status_code == 200:
         return True
-    else:
-        logger.info("RSI Handle Lookup returned code: " + response.status_code)
-        return False
+
+    logger.info("RSI Handle Lookup returned code: %s") % response.status_code
+    return False
 
 
 async def get_rsi_handle_info(rsi_handle, verification_code):
     """
     Get the info on the RSI Users About me.
     """
-    response = requests.get(rsi_citizens + rsi_handle)
+    response = requests.get(RSI_CITIZENS_LINK + rsi_handle, timeout=30)
     if verification_code in response.text:
         return True
-    else:
-        logger.info("Incorrect verification code.")
-        return False
+
+    logger.info("Incorrect verification code.")
+    return False

@@ -5,9 +5,10 @@ import logging
 
 from os import environ
 
-from src.logic import resources_logic, database_connection
+from src.logic import resources_logic
 
-logger = logging.getLogger(environ['LOGGER_NAME'])
+logger = logging.getLogger(environ["LOGGER_NAME"])
+
 
 async def signup_string(author_name: str):
     """
@@ -18,19 +19,3 @@ async def signup_string(author_name: str):
     logger.info("Signup string value = " + string_value)
 
     return string_value
-
-async def prepare_commands_to_update(guild_id:int , commands_to_enable: list, enable: bool):
-    """
-    Prepare the list of commands
-    """
-    try:
-        current_commands: dict = await database_connection.get_enabled_commands(guild_id)
-        skip = False
-    except Exception as error:
-        logger.warning(error)
-        skip = True
-
-    if not skip:
-        for each in commands_to_enable:
-            current_commands[each] = enable
-        await database_connection.update_enabled_commands(guild_id, current_commands)
