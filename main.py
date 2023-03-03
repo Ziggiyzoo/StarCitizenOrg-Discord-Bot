@@ -4,7 +4,6 @@ BRVNS Discord Bot
 from os import environ
 
 import logging
-import discord
 
 from src.brvns_bot import BrvnsBot
 

@@ -49,7 +49,7 @@ async def add_guild(guild_id: int, guild_name: str, spectrum_id: str):
         logger.warn("Failure in adding guild to DB")
         logger.info(exc)
         return False
-        
+
 async def remove_guild(guild_id: int):
     """
     Remove the guild from the DB
@@ -74,7 +74,7 @@ async def get_user_verification_info(user_id):
     except exceptions.FirebaseError as exc:
         logger.warn("Failure finding user information in Firebase")
         logger.info(exc)
-    
+
     if user_doc != None:
         return user_doc
     else:

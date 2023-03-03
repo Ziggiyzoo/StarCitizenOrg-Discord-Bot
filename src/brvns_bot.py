@@ -40,4 +40,3 @@ class BrvnsBot(Bot):
         """
         Ignore Prefixless Messages
         """
-

@@ -6,7 +6,7 @@ import logging, discord
 from os import environ
 
 from discord.ext import commands
-from discord import Option 
+from discord import Option
 
 from os import environ
 
@@ -30,7 +30,7 @@ class SlashBrvns(commands.Cog):
         """
         author_name: str = ctx.author.name
         await ctx.respond(await slash_logic.signup_string(author_name))
-    
+
     @commands.slash_command(name="bind_discord", descriptions="Bind discord user to RSI Account")
     async def bind_discord(self, ctx, rsi_handle: Option(str)):
         """
@@ -61,10 +61,10 @@ class SlashBrvns(commands.Cog):
             if valid_handle:
                 validation_string = str(resources_logic.create_random_string())
                 await database_connection.add_user_to_bound(author_id, rsi_handle, validation_string)
-                await ctx.respond("Your RSI Handle is Valid, please put the following in your Bio: " + 
-                                    validation_string + 
+                await ctx.respond("Your RSI Handle is Valid, please put the following in your Bio: " +
+                                    validation_string +
                                     "\n\nPlease run this command again after you have done this.", ephemeral = True)
-                
+
             else:
                 await ctx.respond("The RSI Handle you entered is invalid, please try again.", ephemeral = True)
 

@@ -85,7 +85,7 @@ jobs:
             #buildah push quay.io/${{ steps.variables.outputs.qyimagepath }}:${{ github.event.inputs.tag }}
             #buildah push quay.io/${{ steps.variables.outputs.qyimagepath }}:latest
           else
-            printf "DryRun. Not pushing Git Tags. Printing commands...\n"          
+            printf "DryRun. Not pushing Git Tags. Printing commands...\n"
 
             printf "buildah push ghcr.io/${{ steps.variables.outputs.ghimagepath }}:${{ github.event.inputs.tag }}\n"
             printf "buildah push ghcr.io/${{ steps.variables.outputs.ghimagepath }}:latest\n"

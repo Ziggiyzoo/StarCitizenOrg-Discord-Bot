@@ -22,7 +22,7 @@ async def check_rsi_handle(rsi_handle):
     else:
         logger.info("RSI Handle Lookup returned code: " + response.status_code)
         return False
-    
+
 async def get_rsi_handle_info(rsi_handle, verification_code):
     """
     Get the info on the RSI Users About me.
@@ -33,6 +33,3 @@ async def get_rsi_handle_info(rsi_handle, verification_code):
     else:
         logger.info("Incorrect verification code.")
         return False
-        
-
-

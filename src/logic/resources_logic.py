@@ -45,7 +45,7 @@ def create_random_string():
     while i < 10:
         letters.append(alphabet[random.randint(0,51)])
         i+=1
-    
+
     letters = "".join(letters)
 
     return letters
