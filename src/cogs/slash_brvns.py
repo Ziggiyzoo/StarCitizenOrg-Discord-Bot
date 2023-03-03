@@ -103,6 +103,9 @@ class SlashBrvns(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
+        """
+        Cog on Ready
+        """
         logger.info("BRVNS Cogs: READY")
 
 
