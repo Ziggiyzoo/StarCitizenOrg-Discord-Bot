@@ -22,4 +22,5 @@ if __name__ == "__main__":
 
     token: str = environ["TOKEN"]
     Bot: BrvnsBot = BrvnsBot(debug_guilds=[997138062381416589])
+    Bot.load_extensions("src.cogs", recursive=True)
     Bot.run(token)

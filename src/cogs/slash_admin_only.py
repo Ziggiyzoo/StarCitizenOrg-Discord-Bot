@@ -63,10 +63,13 @@ class SlashAdminOnly(commands.Cog):
                 ephemeral=True,
             )
 
+    @commands.Cog.listener()
+    async def on_ready(self):
+        logger.info("Admin Only Cogs: READY")
+
 
 def setup(bot):
     """
     Add cog to bot
     """
-
     bot.add_cog(SlashAdminOnly(bot))

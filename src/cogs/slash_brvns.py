@@ -93,6 +93,18 @@ class SlashBrvns(commands.Cog):
                     ephemeral=True,
                 )
 
+    @commands.slash_command(name="ping", description="Return the bot latency.")
+    async def ping(self, ctx):
+        """
+        Send bot ping
+        """
+        await ctx.respond(f"Pong! Latency is {round(self.bot.latency * 100, 2)} ms")
+        logger.info("Sent Ping")
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        logger.info("BRVNS Cogs: READY")
+
 
 def setup(bot):
     """
