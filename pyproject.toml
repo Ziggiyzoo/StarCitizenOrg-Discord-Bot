@@ -3,13 +3,15 @@ name = "brvns-discord"
 version = "0.1.0"
 description = "A Discord bot for the Blue Ravens Org."
 authors = [
-    "David \"Ziggiyzoo\" <you@example.com>",
+    "David \"Ziggiyzoo\" <davidsymons.w@gmail.com>",
     "Renegade-Master <renegade.master.dev@protonmail.com>"
 ]
 
 [tool.poetry.dependencies]
 python = ">=3.8.0,<=3.10.99"
 py-cord = "^2.0.0"
+firebase-admin = "^5.2.0"
+requests = "^2.28.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"

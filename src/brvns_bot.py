@@ -3,13 +3,17 @@ BRVNS Bot API
 """
 import logging
 
-from discord.ext.commands import Bot
+import discord.ext.commands as ext_commands
 
-logger = logging.getLogger(__name__)
+logging.basicConfig(
+    format="| %(asctime)s | %(levelname)-8s | [%(filename)s:%(lineno)d] | %(message)s"
+)
+logger = logging.getLogger()
+logger.setLevel("INFO")
 
 
 # pylint: disable=too-many-ancestors
-class BrvnsBot(Bot):
+class BrvnsBot(ext_commands.Bot):
     """
     BRVNS Bot
     """
@@ -17,16 +21,13 @@ class BrvnsBot(Bot):
     def __init__(self, debug_guilds):
         super().__init__(self, debug_guilds=debug_guilds)
 
-        self.load_extension("src.cogs", recursive=True)
-
-        logger.info("Cogs added")
-
     async def on_ready(self):
         """
         Bot On Ready
         """
-        logger.info(f"""
-            ____ READY ____
-            Bot: {self.user.name}
-            Guilds: {self.guilds}
-            Cogs: {self.cogs}""".strip())
+        logger.info("READY")
+
+    async def on_message(self, message):
+        """
+        Catch message and do nothing
+        """

@@ -54,11 +54,11 @@ Follow the instructions according to your chosen installation method.
 
 1. Ensure Docker or Podman is installed.
 2. Download your desired version of the `ziggiyzoo/brvns-discord-bot` image:
-   
+
    ```shell
    # With Docker
    docker pull ghcr.io/ziggiyzoo/brvns-discord-bot:<tag>
-   
+
    # With Podman
    podman pull ghcr.io/ziggiyzoo/brvns-discord-bot:<tag>
    ```
