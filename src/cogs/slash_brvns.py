@@ -33,9 +33,9 @@ class SlashBrvns(commands.Cog):
 
     # pylint: disable=no-member
     @commands.slash_command(
-        name="bind_discord", descriptions="Bind discord user to RSI Account"
+        name="verify_discord", descriptions="Bind discord user to RSI Account."
     )
-    async def bind_discord(self, ctx, rsi_handle: discord.Option(str)):
+    async def verify_discord(self, ctx, rsi_handle: discord.Option(str)):
         """
         Verify if the discord member is a member of the RSI Org.
         """
@@ -92,6 +92,20 @@ class SlashBrvns(commands.Cog):
                     "The RSI Handle you entered is invalid, please try again.",
                     ephemeral=True,
                 )
+
+    @commands.slash_command(
+        name="verify_org_membership",
+        descriptions="Verify your membership and role within the BRVNS Org.",
+    )
+    async def verify_membership(self, ctx):
+        """
+        Verify if the user is a member of the BRVNS Org and assign roles accordingly.
+        """
+        # Get Spectrum ID from database. and check if they are verified.
+
+        # Check the org membership status and rank
+
+        # Assig the correct roles
 
     @commands.slash_command(name="ping", description="Return the bot latency.")
     async def ping(self, ctx):
