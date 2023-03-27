@@ -52,7 +52,7 @@ jobs:
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: |
-          poetry version
+          poetry lock
           poetry install
 
       - name: Analyse the code with pylint
