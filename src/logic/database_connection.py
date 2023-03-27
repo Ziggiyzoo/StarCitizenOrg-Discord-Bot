@@ -3,19 +3,16 @@ BRVNS Database Connection
 Use this file to read and write from the database.
 """
 import logging
-import os
 
 import firebase_admin
 from firebase_admin import credentials, firestore, exceptions
 
+from src.logic import _get_firebase_secret_path
+
 logger = logging.getLogger()
 logger.setLevel("INFO")
 
-cred = credentials.Certificate(
-    os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "../../.env/firebase_secret.json"
-    )
-)
+cred: credentials.Certificate = credentials.Certificate(_get_firebase_secret_path())
 
 firebase_admin.initialize_app(cred)
 db = firestore.client()

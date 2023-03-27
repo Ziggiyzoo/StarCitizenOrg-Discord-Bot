@@ -108,8 +108,8 @@ jobs:
         run: |
           poetry run python -m pytest
 
-  build_application:
-    name: "Build the Project"
+  build_and_run_image:
+    name: "Build the Project as an Image and Run it as a Container"
     needs:
       - lint_application
       - test_application
@@ -119,10 +119,13 @@ jobs:
 
       - name: Set Variables
         id: variables
+        env:
+          FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
         run: |
-          echo "::set-output name=datetime::$(date +%Y%m%dT%H%M%SZ)"
-          echo "::set-output name=userid::$(id -u)"
-          echo "::set-output name=groupid::$(id -g)"
+          echo "datetime=$(date +%Y%m%dT%H%M%SZ)" >> $GITHUB_OUTPUT
+          echo "userid=$(id -u)" >> $GITHUB_OUTPUT
+          echo "groupid=$(id -g)" >> $GITHUB_OUTPUT
+          echo "${FIREBASE_SECRET}" > $(pwd)/firebase_secret.json
 
       - name: Test Buildah Build
         run: |
@@ -131,25 +134,36 @@ jobs:
           --tag ghcr.io/ziggiyzoo/brvns-discord-bot:gh-${{ steps.variables.outputs.datetime }} \
           .
 
+      - name: Test Buildah Run
+        env:
+          TOKEN: ${{ secrets.DISCORDTOKEN }}
+        run: |
+          timeout 60 podman run \
+          --env TOKEN=${{ secrets.DISCORDTOKEN }} \
+          --volume $(pwd)/firebase_secret.json:/var/secrets/firebase_secret.json:ro \
+          ghcr.io/ziggiyzoo/brvns-discord-bot:gh-${{ steps.variables.outputs.datetime }} \
+          || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
+
   run_application:
     name: "Run the Project"
     needs:
       - lint_application
       - test_application
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [ "3.8", "3.9", "3.10" ]
         poetry-version: [ "1.4.0" ]
+        # os: [ ubuntu-latest, windows-latest ]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
       - name: Set Variables
         id: variables
         run: |
-          echo "::set-output name=datetime::$(date +%Y%m%dT%H%M%SZ)"
-          echo "::set-output name=userid::$(id -u)"
-          echo "::set-output name=groupid::$(id -g)"
+          echo "datetime=$(date +%Y%m%dT%H%M%SZ)" >> $GITHUB_OUTPUT
+          echo "userid=$(id -u)" >> $GITHUB_OUTPUT
+          echo "groupid=$(id -g)" >> $GITHUB_OUTPUT
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
