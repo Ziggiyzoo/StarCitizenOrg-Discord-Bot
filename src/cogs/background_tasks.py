@@ -12,6 +12,10 @@ logger.setLevel("INFO")
 
 
 class BackgroundTasks(commands.Cog):
+    """
+    Background Tasks
+    """
+
     def __init__(self, bot):
         self.bot: commands.Bot = bot
         logger.info("Init Background Tasks Cog")
@@ -24,8 +28,8 @@ class BackgroundTasks(commands.Cog):
         """
         logger.info("Running role update task.")
         id_list = await database_connection.get_verified_user_list()
-        for id in id_list:
-            user_info = await database_connection.get_user_verification_info(id)
+        for member_id in id_list:
+            user_info = await database_connection.get_user_verification_info(member_id)
             membership = await rsi_lookup.get_user_membership(user_info["handle"])
             rank = await rsi_lookup.get_user_rank(user_info["handle"])
             rank_list = [
@@ -74,12 +78,11 @@ class BackgroundTasks(commands.Cog):
                     )
                 )
                 for i in [1, 2, 3, 4, 5]:
-                    logger.info("Removing: " + rank_list[rank_index - i])
                     await member.remove_roles(
                         discord.utils.get(guild.roles, name=rank_list[rank_index - i])
                     )
-            except AttributeError as e:
-                logger.error(e)
+            except AttributeError as error:
+                logger.error(error)
 
         channel = self.bot.get_channel(1071924147501928558)
         await channel.send("Ranks and Membership have been updated.")
@@ -91,8 +94,9 @@ class BackgroundTasks(commands.Cog):
         Wait until bot is ready
         """
         await self.bot.wait_until_ready()
+        self.update_membership_and_roles.start()
 
-    async def cog_unload(self):
+    def cog_unload(self):
         """
         Cancel the background tasks if the cog is unloaded.
         """

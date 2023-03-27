@@ -103,6 +103,9 @@ async def add_user_to_bound(author_id, rsi_handle, validation_string):
 
 
 async def get_verified_user_list():
+    """
+    Get a list of verified users.
+    """
     ref = db.collection("bound_users")
     items = ref.select(field_paths=[]).get()
     ids = [item.id for item in items]

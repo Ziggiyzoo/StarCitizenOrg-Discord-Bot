@@ -6,8 +6,8 @@ Use this class to look up information from the RSI website wirh webscraping
 import logging
 import requests
 
-from bs4 import BeautifulSoup
 from urllib.request import urlopen
+from bs4 import BeautifulSoup
 
 RSI_CITIZENS_LINK = "https://robertsspaceindustries.com/citizens/"
 RSI_ORG_MEMBERS_LINK = "https://robertsspaceindustries.com/orgs/BRVNS/members"
