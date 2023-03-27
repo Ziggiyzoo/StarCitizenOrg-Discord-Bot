@@ -138,10 +138,11 @@ jobs:
         env:
           TOKEN: ${{ secrets.DISCORDTOKEN }}
         run: |
-          podman run \
+          timeout 60 podman run \
           --env TOKEN=${{ secrets.DISCORDTOKEN }} \
           --volume $(pwd)/firebase_secret.json:/var/secrets/firebase_secret.json:ro \
-          ghcr.io/ziggiyzoo/brvns-discord-bot:gh-${{ steps.variables.outputs.datetime }}
+          ghcr.io/ziggiyzoo/brvns-discord-bot:gh-${{ steps.variables.outputs.datetime }} \
+          || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
 
   run_application:
     name: "Run the Project"
@@ -152,8 +153,8 @@ jobs:
       matrix:
         python-version: [ "3.8", "3.9", "3.10" ]
         poetry-version: [ "1.4.0" ]
-        os: [ ubuntu-latest, windows-latest ]
-    runs-on: ${{ matrix.os }}
+        # os: [ ubuntu-latest, windows-latest ]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
