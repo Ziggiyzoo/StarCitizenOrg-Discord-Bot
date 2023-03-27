@@ -19,7 +19,7 @@ class BackgroundTasks(commands.Cog):
     def __init__(self, bot):
         self.bot: commands.Bot = bot
         logger.info("Init Background Tasks Cog")
-        # pylint: disable=no-member
+        # pylint: disable=E1101
         self.update_membership_and_roles.start()
 
     @tasks.loop(hours=12)
@@ -89,20 +89,20 @@ class BackgroundTasks(commands.Cog):
         await channel.send("Ranks and Membership have been updated.")
         logger.info("Ranks and Membership have been updated.")
 
-    # pylint: disable=no-member
     @update_membership_and_roles.before_loop
     async def wait_until_ready(self):
         """
         Wait until bot is ready
         """
         await self.bot.wait_until_ready()
+        # pylint: disable=E1101
         self.update_membership_and_roles.start()
 
     def cog_unload(self):
         """
         Cancel the background tasks if the cog is unloaded.
         """
-        # pylint: disable=no-member
+        # pylint: disable=E1101
         self.update_membership_and_roles.cancel()
 
 

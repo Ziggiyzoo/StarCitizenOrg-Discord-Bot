@@ -5,6 +5,7 @@ Use this class to look up information from the RSI website wirh webscraping
 """
 import logging
 from urllib.request import urlopen
+
 import requests
 from bs4 import BeautifulSoup
 
