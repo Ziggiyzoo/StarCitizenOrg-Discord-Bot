@@ -19,7 +19,7 @@ on:
         options:
           - buildah
           - docker
-        default: "buildah"
+        default: "docker"
 
 defaults:
   run:
@@ -51,10 +51,10 @@ jobs:
       - name: Set Variables
         id: variables
         run: |
-          #echo "dkimagepath=ziggiyzoo/brvns-discord-bot" >> $GITHUB_OUTPUT
-          echo "ghimagepath=ziggiyzoo/brvns-discord-bot" >> $GITHUB_OUTPUT
-          #echo "qyimagepath=ziggiyzoo/brvns-discord-bot" >> $GITHUB_OUTPUT
           echo "datetime=$(date +%Y%m%dT%H%M%SZ)" >> $GITHUB_OUTPUT
+          #echo "dkimagepath=ziggiyzoo/star-citizen-org-discord-bot" >> $GITHUB_OUTPUT
+          echo "ghimagepath=ziggiyzoo/star-citizen-org-discord-bot" >> $GITHUB_OUTPUT
+          #echo "qyimagepath=ziggiyzoo/star-citizen-org-discord-bot" >> $GITHUB_OUTPUT
 
       - name: Login to Image Repositories
         run: |
@@ -68,13 +68,13 @@ jobs:
       - name: Build the Image
         run: |
           if [[ ${{ github.event.inputs.builder }} == "buildah" ]]; then
-            buildah bud \
-              --file docker/steamcmd-minimal.Dockerfile \
+            BUILDAH_LAYERS=true buildah bud \
+              --file image/brvns.Containerfile \
               --tag localhost:5000/${{ steps.variables.outputs.ghimagepath }}:${{ github.event.inputs.tag }} \
               .
           elif [[ ${{ github.event.inputs.builder }} == "docker" ]]; then
             docker build \
-              --file docker/steamcmd-minimal.Dockerfile \
+              --file image/brvns.Containerfile \
               --tag localhost:5000/${{ steps.variables.outputs.ghimagepath }}:${{ github.event.inputs.tag }} \
               .
           fi
