@@ -21,6 +21,6 @@ if __name__ == "__main__":
     logger.info("Token found, running the bot")
 
     token: str = environ["TOKEN"]
-    Bot = BrvnsBot(debug_guilds=[997138062381416589])
+    Bot: BrvnsBot = BrvnsBot(debug_guilds=[997138062381416589])
     Bot.load_extensions("src.cogs", recursive=True)
     Bot.run(token)
