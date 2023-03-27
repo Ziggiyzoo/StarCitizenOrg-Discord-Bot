@@ -12,7 +12,7 @@ from src.logic import _get_firebase_secret_path
 logger = logging.getLogger()
 logger.setLevel("INFO")
 
-cred = credentials.Certificate(_get_firebase_secret_path())
+cred: credentials.Certificate = credentials.Certificate(_get_firebase_secret_path())
 
 firebase_admin.initialize_app(cred)
 db = firestore.client()
