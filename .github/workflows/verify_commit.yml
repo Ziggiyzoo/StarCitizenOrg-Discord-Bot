@@ -123,8 +123,7 @@ jobs:
           echo "::set-output name=datetime::$(date +%Y%m%dT%H%M%SZ)"
           echo "::set-output name=userid::$(id -u)"
           echo "::set-output name=groupid::$(id -g)"
-          mkdir -p /var/secrets/
-          echo "${{ secrets.FIREBASE_SECRET }}" > /var/secrets/firebase_secret.json
+          echo "${{ secrets.FIREBASE_SECRET }}" > .env/firebase_secret.json
 
       - name: Test Buildah Build
         run: |
@@ -139,7 +138,7 @@ jobs:
         run: |
           podman run \
           --env TOKEN=${{ secrets.DISCORDTOKEN }} \
-          --volume /var/secrets/firebase_secret.json:/var/secrets/firebase_secret.json:ro \
+          --volume $(pwd)/.env/firebase_secret.json:/var/secrets/firebase_secret.json:ro \
           ghcr.io/ziggiyzoo/brvns-discord-bot:gh-${{ steps.variables.outputs.datetime }}
 
   run_application:
