@@ -19,9 +19,9 @@ class BackgroundTasks(commands.Cog):
     def __init__(self, bot):
         self.bot: commands.Bot = bot
         logger.info("Init Background Tasks Cog")
+        # pylint: disable=no-member
         self.update_membership_and_roles.start()
 
-    # pylint: disable=no-member
     @tasks.loop(hours=12)
     async def update_membership_and_roles(self):
         """
