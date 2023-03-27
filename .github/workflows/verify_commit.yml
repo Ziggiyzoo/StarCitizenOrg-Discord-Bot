@@ -120,10 +120,10 @@ jobs:
       - name: Set Variables
         id: variables
         run: |
-          echo "::set-output name=datetime::$(date +%Y%m%dT%H%M%SZ)"
-          echo "::set-output name=userid::$(id -u)"
-          echo "::set-output name=groupid::$(id -g)"
-          echo "${{ secrets.FIREBASE_SECRET }}" > .env/firebase_secret.json
+          echo "datetime=$(date +%Y%m%dT%H%M%SZ)" >> $GITHUB_OUTPUT
+          echo "userid=$(id -u)" >> $GITHUB_OUTPUT
+          echo "groupid=$(id -g)" >> $GITHUB_OUTPUT
+          echo "${{ secrets.FIREBASE_SECRET }}" > $(pwd)/firebase_secret.json
 
       - name: Test Buildah Build
         run: |
@@ -138,7 +138,7 @@ jobs:
         run: |
           podman run \
           --env TOKEN=${{ secrets.DISCORDTOKEN }} \
-          --volume $(pwd)/.env/firebase_secret.json:/var/secrets/firebase_secret.json:ro \
+          --volume $(pwd)/firebase_secret.json:/var/secrets/firebase_secret.json:ro \
           ghcr.io/ziggiyzoo/brvns-discord-bot:gh-${{ steps.variables.outputs.datetime }}
 
   run_application:
@@ -157,9 +157,9 @@ jobs:
       - name: Set Variables
         id: variables
         run: |
-          echo "::set-output name=datetime::$(date +%Y%m%dT%H%M%SZ)"
-          echo "::set-output name=userid::$(id -u)"
-          echo "::set-output name=groupid::$(id -g)"
+          echo "datetime=$(date +%Y%m%dT%H%M%SZ)" >> $GITHUB_OUTPUT
+          echo "userid=$(id -u)" >> $GITHUB_OUTPUT
+          echo "groupid=$(id -g)" >> $GITHUB_OUTPUT
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
