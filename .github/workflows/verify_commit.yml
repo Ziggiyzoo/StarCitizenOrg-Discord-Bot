@@ -131,6 +131,14 @@ jobs:
           --tag ghcr.io/ziggiyzoo/brvns-discord-bot:gh-${{ steps.variables.outputs.datetime }} \
           .
 
+      - name: Test Buildah Run
+        env:
+          TOKEN: ${{ secrets.DISCORDTOKEN }}
+        run: |
+          podman run \
+          --env TOKEN=${{ secrets.DISCORDTOKEN }} \
+          ghcr.io/ziggiyzoo/brvns-discord-bot:gh-${{ steps.variables.outputs.datetime }}
+
   run_application:
     name: "Run the Project"
     needs:
