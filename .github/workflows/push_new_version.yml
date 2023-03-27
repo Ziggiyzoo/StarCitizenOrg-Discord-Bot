@@ -52,9 +52,9 @@ jobs:
         id: variables
         run: |
           echo "datetime=$(date +%Y%m%dT%H%M%SZ)" >> $GITHUB_OUTPUT
-          #echo "dkimagepath=ziggiyzoo/brvns-discord-bot" >> $GITHUB_OUTPUT
-          echo "ghimagepath=ziggiyzoo/brvns-discord-bot" >> $GITHUB_OUTPUT
-          #echo "qyimagepath=ziggiyzoo/brvns-discord-bot" >> $GITHUB_OUTPUT
+          #echo "dkimagepath=ziggiyzoo/star-citizen-org-discord-bot" >> $GITHUB_OUTPUT
+          echo "ghimagepath=ziggiyzoo/star-citizen-org-discord-bot" >> $GITHUB_OUTPUT
+          #echo "qyimagepath=ziggiyzoo/star-citizen-org-discord-bot" >> $GITHUB_OUTPUT
 
       - name: Login to Image Repositories
         run: |
