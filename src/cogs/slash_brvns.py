@@ -2,8 +2,8 @@
 BRVNS Slash Cogs
 """
 import logging
-import discord
 
+import discord
 from discord.ext import commands
 
 from src.logic import slash_logic, database_connection, rsi_lookup, resources_logic
@@ -33,9 +33,9 @@ class SlashBrvns(commands.Cog):
 
     # pylint: disable=no-member
     @commands.slash_command(
-        name="bind_discord", descriptions="Bind discord user to RSI Account"
+        name="verify_discord", descriptions="Bind discord user to RSI Account."
     )
-    async def bind_discord(self, ctx, rsi_handle: discord.Option(str)):
+    async def verify_discord(self, ctx, rsi_handle: discord.Option(str)):
         """
         Verify if the discord member is a member of the RSI Org.
         """
@@ -57,6 +57,10 @@ class SlashBrvns(commands.Cog):
                 await ctx.author.add_roles(
                     discord.utils.get(ctx.guild.roles, name="Verified")
                 )
+                await ctx.author.remove_roles(
+                    discord.utils.get(ctx.guild.roles, name="Unverified")
+                )
+                await ctx.author.edit(nick=rsi_handle)
                 await database_connection.update_bound_user(author_id, "VERIFIED")
                 await ctx.respond(
                     "Thank you for binding your RSI and Discord accounts."
@@ -92,6 +96,50 @@ class SlashBrvns(commands.Cog):
                     "The RSI Handle you entered is invalid, please try again.",
                     ephemeral=True,
                 )
+
+    @commands.slash_command(
+        name="verify_org_membership",
+        descriptions="Verify your membership and role within the BRVNS Org.",
+    )
+    async def verify_membership(self, ctx):
+        """
+        Verify if the user is a member of the BRVNS Org and assign roles accordingly.
+        """
+        author_id: int = ctx.author.id
+
+        # Get Spectrum ID from database. And check if they are verified.
+        user_info = await database_connection.get_user_verification_info(author_id)
+
+        if user_info["verification_step"] == "VERIFIED":
+            membership = await rsi_lookup.get_user_membership(user_info["handle"])
+            rank = await rsi_lookup.get_user_rank(user_info["handle"])
+
+            # Check the org membership status and rank
+            if membership == "Org Member":
+                await ctx.author.add_roles(
+                    discord.utils.get(ctx.guild.roles, name="BRVNS Member")
+                )
+                await ctx.author.add_roles(
+                    discord.utils.get(ctx.guild.roles, name=rank)
+                )
+                await ctx.respond("Your roles have been updated!", ephemeral=True)
+            elif membership == "Org Affiliate":
+                await ctx.author.add_roles(
+                    discord.utils.get(ctx.guild.roles, name="BRVNS Affiliate")
+                )
+                await ctx.author.add_roles(
+                    discord.utils.get(ctx.guild.roles, name=rank)
+                )
+                await ctx.respond("Your roles have been updated!", ephemeral=True)
+            else:
+                # User not a member
+                await ctx.respond(
+                    user_info["handle"]
+                    + ". You are not a member of the Blue Ravens Org on Spectrum.",
+                    ephemeral=True,
+                )
+
+        # Assig the correct roles
 
     @commands.slash_command(name="ping", description="Return the bot latency.")
     async def ping(self, ctx):

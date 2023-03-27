@@ -3,6 +3,7 @@ BRVNS Bot API
 """
 import logging
 
+import discord
 import discord.ext.commands as ext_commands
 
 logging.basicConfig(
@@ -19,7 +20,7 @@ class BrvnsBot(ext_commands.Bot):
     """
 
     def __init__(self, debug_guilds):
-        super().__init__(self, debug_guilds=debug_guilds)
+        super().__init__(self, debug_guilds=debug_guilds, intents=discord.Intents.all())
 
     async def on_ready(self):
         """
