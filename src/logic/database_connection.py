@@ -100,3 +100,10 @@ async def add_user_to_bound(author_id, rsi_handle, validation_string):
             "verification_step": "IN PROGRESS",
         }
     )
+
+
+async def get_verified_user_list():
+    ref = db.collection("bound_users")
+    items = ref.select(field_paths=[]).get()
+    ids = [item.id for item in items]
+    return ids

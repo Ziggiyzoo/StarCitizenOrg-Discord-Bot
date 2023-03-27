@@ -57,6 +57,10 @@ class SlashBrvns(commands.Cog):
                 await ctx.author.add_roles(
                     discord.utils.get(ctx.guild.roles, name="Verified")
                 )
+                await ctx.author.remove_roles(
+                    discord.utils.get(ctx.guild.roles, name="Unverified")
+                )
+                await ctx.author.edit(nick=rsi_handle)
                 await database_connection.update_bound_user(author_id, "VERIFIED")
                 await ctx.respond(
                     "Thank you for binding your RSI and Discord accounts."
@@ -101,9 +105,39 @@ class SlashBrvns(commands.Cog):
         """
         Verify if the user is a member of the BRVNS Org and assign roles accordingly.
         """
-        # Get Spectrum ID from database. and check if they are verified.
+        author_id: int = ctx.author.id
 
-        # Check the org membership status and rank
+        # Get Spectrum ID from database. And check if they are verified.
+        user_info = await database_connection.get_user_verification_info(author_id)
+
+        if user_info["verification_step"] == "VERIFIED":
+            membership = await rsi_lookup.get_user_membership(user_info["handle"])
+            rank = await rsi_lookup.get_user_rank(user_info["handle"])
+
+            # Check the org membership status and rank
+            if membership == "Org Member":
+                await ctx.author.add_roles(
+                    discord.utils.get(ctx.guild.roles, name="BRVNS Member")
+                )
+                await ctx.author.add_roles(
+                    discord.utils.get(ctx.guild.roles, name=rank)
+                )
+                await ctx.respond("Your roles have been updated!", ephemeral=True)
+            elif membership == "Org Affiliate":
+                await ctx.author.add_roles(
+                    discord.utils.get(ctx.guild.roles, name="BRVNS Affiliate")
+                )
+                await ctx.author.add_roles(
+                    discord.utils.get(ctx.guild.roles, name=rank)
+                )
+                await ctx.respond("Your roles have been updated!", ephemeral=True)
+            else:
+                # User not a member
+                await ctx.respond(
+                    user_info["handle"]
+                    + ". You are not a member of the Blue Ravens Org on Spectrum.",
+                    ephemeral=True,
+                )
 
         # Assig the correct roles
 

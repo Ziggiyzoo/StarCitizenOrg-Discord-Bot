@@ -34,7 +34,7 @@ async def get_rsi_handle_info(rsi_handle, verification_code):
     Get the info on the RSI Users About me.
     """
     url = RSI_CITIZENS_LINK + rsi_handle
-    soup = open_page(url)
+    soup = await open_page(url)
     bio = soup.find("div", {"class": "entry bio"})
     if verification_code in bio.text:
         return True
@@ -48,14 +48,14 @@ async def get_user_membership(rsi_handle):
     Check if the user is a member, and check if they are a affilliate or main member.
     """
     href_id = "/citizens/" + rsi_handle
-    soup = open_page(RSI_ORG_MEMBERS_LINK)
+    soup = await open_page(RSI_ORG_MEMBERS_LINK)
 
     member = soup.find("a", href=href_id)
     if member is not None:
         title = member.find("span", {"class": "title"})
-        if title.text == "role":
+        if title.text == "Roles":
             return "Org Member"
-        return "Org Afilliate"
+        return "Org Affiliate"
     return "ERROR: Org Member Missing"
 
 
@@ -64,7 +64,7 @@ async def get_user_rank(rsi_handle):
     Check of the user is a member, and if they are get their rank.
     """
     href_id = "/citizens/" + rsi_handle
-    soup = open_page(RSI_ORG_MEMBERS_LINK)
+    soup = await open_page(RSI_ORG_MEMBERS_LINK)
 
     member = soup.find("a", href=href_id)
     if member is not None:

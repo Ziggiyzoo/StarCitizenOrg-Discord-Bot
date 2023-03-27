@@ -48,13 +48,4 @@ def create_random_string():
     """
     Create a randomg string for verification
     """
-    alphabet = [string.ascii_letters]
-    letters = []
-    i = 0
-    while i < 10:
-        letters.append(alphabet[random.randint(0, 51)])
-        i += 1
-
-    letters = "".join(letters)
-
-    return letters
+    return "".join([random.choice(string.ascii_letters) for n in range(10)])
