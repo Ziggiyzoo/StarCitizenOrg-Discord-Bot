@@ -2,8 +2,8 @@
 BRVNS Slash Cogs
 """
 import logging
-import discord
 
+import discord
 from discord.ext import commands
 
 from src.logic import slash_logic, database_connection, rsi_lookup, resources_logic

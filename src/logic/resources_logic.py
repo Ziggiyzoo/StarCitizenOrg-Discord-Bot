@@ -5,8 +5,8 @@ Use this method to return resources form the strings.ini file.
 
 import configparser
 import os
-import string
 import random
+import string
 
 config = configparser.ConfigParser()
 

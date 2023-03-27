@@ -3,7 +3,6 @@ BRVNS Database Connection
 Use this file to read and write from the database.
 """
 import logging
-
 import os
 
 import firebase_admin

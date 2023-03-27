@@ -1,9 +1,8 @@
 """
 BRVNS Discord Bot
 """
-from os import environ
-
 import logging
+from os import environ
 
 from src.brvns_bot import BrvnsBot
 
