@@ -108,8 +108,8 @@ jobs:
         run: |
           poetry run python -m pytest
 
-  build_application:
-    name: "Build the Project"
+  build_and_run_image:
+    name: "Build the Project as an Image and Run it as a Container"
     needs:
       - lint_application
       - test_application
@@ -123,6 +123,8 @@ jobs:
           echo "::set-output name=datetime::$(date +%Y%m%dT%H%M%SZ)"
           echo "::set-output name=userid::$(id -u)"
           echo "::set-output name=groupid::$(id -g)"
+          mkdir -p /var/secrets/
+          echo "${{ secrets.FIREBASE_SECRET }}" > /var/secrets/firebase_secret.json
 
       - name: Test Buildah Build
         run: |
@@ -137,6 +139,7 @@ jobs:
         run: |
           podman run \
           --env TOKEN=${{ secrets.DISCORDTOKEN }} \
+          --volume /var/secrets/firebase_secret.json:/var/secrets/firebase_secret.json:ro \
           ghcr.io/ziggiyzoo/brvns-discord-bot:gh-${{ steps.variables.outputs.datetime }}
 
   run_application:

@@ -65,7 +65,7 @@ class BackgroundTasks(commands.Cog):
             # Check the org membership status and rank
             try:
                 guild = self.bot.get_guild(997138062381416589)
-                member = guild.get_member(member_id)
+                member = guild.get_member(int(member_id))
                 await member.add_roles(
                     *[
                         discord.utils.get(
