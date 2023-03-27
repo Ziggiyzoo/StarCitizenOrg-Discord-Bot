@@ -4,9 +4,8 @@ BRVNS RSI Lookup
 Use this class to look up information from the RSI website wirh webscraping
 """
 import logging
-import requests
-
 from urllib.request import urlopen
+import requests
 from bs4 import BeautifulSoup
 
 RSI_CITIZENS_LINK = "https://robertsspaceindustries.com/citizens/"
