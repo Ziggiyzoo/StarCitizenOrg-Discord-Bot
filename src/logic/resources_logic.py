@@ -48,4 +48,5 @@ def create_random_string():
     """
     Create a randomg string for verification
     """
+
     return "".join([random.choice(string.ascii_letters) for n in range(10)])
