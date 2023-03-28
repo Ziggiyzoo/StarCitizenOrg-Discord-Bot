@@ -24,6 +24,7 @@ class BackgroundTasks(commands.Cog):
         # pylint: disable=E1101
         self.update_membership_and_roles.start()
 
+    # pylint: disable=R0914
     @tasks.loop(hours=12)
     async def update_membership_and_roles(self):
         """
@@ -95,7 +96,6 @@ class BackgroundTasks(commands.Cog):
             f"Ranks and Membership have been updated. This took: {time_taken} s"
         )
         logger.info("Ranks and Membership have been updated.")
-        logger.info("Updating Ranks and Membership Roles took: %s s" % time_taken)
 
     @update_membership_and_roles.before_loop
     async def wait_until_ready(self):
