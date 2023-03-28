@@ -96,8 +96,6 @@ class BackgroundTasks(commands.Cog):
         Wait until bot is ready
         """
         await self.bot.wait_until_ready()
-        # pylint: disable=E1101
-        self.update_membership_and_roles.start()
 
     def cog_unload(self):
         """
@@ -105,6 +103,13 @@ class BackgroundTasks(commands.Cog):
         """
         # pylint: disable=E1101
         self.update_membership_and_roles.cancel()
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        """
+        Cog on Ready
+        """
+        logger.info("Background Tasks Cog: READY")
 
 
 def setup(bot):
