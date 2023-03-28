@@ -2,6 +2,7 @@
 Background tasks to loop for the bot.
 """
 import logging
+import time
 
 import discord
 from discord.ext import commands, tasks
@@ -29,6 +30,7 @@ class BackgroundTasks(commands.Cog):
         A background loop to update roles and membership automatically
         """
         logger.info("Running role update task.")
+        start = time.time()
         id_list = await database_connection.get_verified_user_list()
         for member_id in id_list:
             user_info = await database_connection.get_user_verification_info(member_id)
@@ -86,9 +88,14 @@ class BackgroundTasks(commands.Cog):
             except AttributeError as error:
                 logger.error(error)
 
+        end = time.time()
+        time_taken = round(end - start, 2)
         channel = self.bot.get_channel(1071924147501928558)
-        await channel.send("Ranks and Membership have been updated.")
+        await channel.send(
+            "Ranks and Membership have been updated. This took: %s s" % time_taken
+        )
         logger.info("Ranks and Membership have been updated.")
+        logger.info("Updating Ranks and Membership Roles took: %s s" % time_taken)
 
     @update_membership_and_roles.before_loop
     async def wait_until_ready(self):
