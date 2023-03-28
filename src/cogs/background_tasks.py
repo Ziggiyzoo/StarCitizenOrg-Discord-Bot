@@ -92,7 +92,7 @@ class BackgroundTasks(commands.Cog):
         time_taken = round(end - start, 2)
         channel = self.bot.get_channel(1071924147501928558)
         await channel.send(
-            "Ranks and Membership have been updated. This took: %s s" % time_taken
+            f"Ranks and Membership have been updated. This took: {time_taken} s"
         )
         logger.info("Ranks and Membership have been updated.")
         logger.info("Updating Ranks and Membership Roles took: %s s" % time_taken)
