@@ -137,6 +137,7 @@ jobs:
       - name: Test Buildah Run
         env:
           TOKEN: ${{ secrets.TEST_DISCORDTOKEN }}
+          API_KEY: ${{ secrets.API_KEY}}
         run: |
           timeout 60 podman run \
           --env TOKEN=${{ secrets.TEST_DISCORDTOKEN }} \
