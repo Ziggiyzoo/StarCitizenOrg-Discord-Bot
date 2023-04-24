@@ -137,11 +137,12 @@ jobs:
       - name: Test Buildah Run
         env:
           TOKEN: ${{ secrets.TEST_DISCORDTOKEN }}
-          API_KEY: ${{ secrets.API_KEY}}
+          API_KEY: ${{ secrets.API_KEY }}
 
         run: |
           timeout 60 podman run \
           --env TOKEN=${{ secrets.TEST_DISCORDTOKEN }} \
+          --env API_KEY=${{ secrets.API_KEY }} \
           --volume $(pwd)/firebase_secret.json:/var/secrets/firebase_secret.json:ro \
           ghcr.io/ziggiyzoo/brvns-discord-bot:gh-${{ steps.variables.outputs.datetime }} \
           || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
