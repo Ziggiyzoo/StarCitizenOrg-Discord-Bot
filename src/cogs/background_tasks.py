@@ -35,7 +35,6 @@ class BackgroundTasks(commands.Cog):
         id_list = await database_connection.get_verified_user_list()
         for member_id in id_list:
             user_info = await database_connection.get_user_verification_info(member_id)
-            logger.info("Getting user info took " + str(time.time() - start))
             membership = await rsi_lookup.get_user_membership_info(user_info["handle"])
             if membership["main_member"]:
                 membership_index = 0
