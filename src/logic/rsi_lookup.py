@@ -11,7 +11,7 @@ import httpx
 RSI_CITIZENS_LINK = "https://robertsspaceindustries.com/citizens/"
 RSI_ORG_MEMBERS_LINK = "https://robertsspaceindustries.com/orgs/BRVNS/members"
 
-API_KEY = environ["API_KEY"]
+API_KEY = environ["SC_API_KEY"]
 
 logger = logging.getLogger()
 logger.setLevel("INFO")
