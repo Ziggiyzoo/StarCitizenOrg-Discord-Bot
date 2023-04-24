@@ -7,11 +7,7 @@ import logging
 from os import environ
 import httpx
 
-
-RSI_CITIZENS_LINK = "https://robertsspaceindustries.com/citizens/"
-RSI_ORG_MEMBERS_LINK = "https://robertsspaceindustries.com/orgs/BRVNS/members"
-
-API_KEY = environ["SC_API_KEY"]
+SC_API_KEY = environ["SC_API_KEY"]
 
 logger = logging.getLogger()
 logger.setLevel("INFO")
@@ -21,11 +17,11 @@ async def check_rsi_handle(rsi_handle):
     """
     Check if the given RSI handle is valid
     """
-    url = f"https://api.starcitizen-api.com/{API_KEY}/v1/live/user/{rsi_handle}"
+    url = f"https://api.starcitizen-api.com/{SC_API_KEY}/v1/live/user/{rsi_handle}"
     async with httpx.AsyncClient() as client:
         response = await client.get(url)
 
-    if response == "<Response [200 OK]>":
+    if str(response) == "<Response [200 OK]>":
         return True
 
     return False
@@ -35,7 +31,7 @@ async def get_rsi_handle_info(rsi_handle, verification_code):
     """
     Get the info on the RSI Users About me.
     """
-    url = f"https://api.starcitizen-api.com/{API_KEY}/v1/live/user/{rsi_handle}"
+    url = f"https://api.starcitizen-api.com/{SC_API_KEY}/v1/live/user/{rsi_handle}"
 
     async with httpx.AsyncClient() as client:
         response = await client.get(url)
@@ -51,18 +47,27 @@ async def get_user_membership_info(rsi_handle):
     """
     Check if the user is a member, and check if they are a affilliate or main member.
     """
-    url = f"https://api.starcitizen-api.com/{API_KEY}/v1/live/user/{rsi_handle}"
+    url = f"https://api.starcitizen-api.com/{SC_API_KEY}/v1/live/user/{rsi_handle}"
     membership = {"main_member": None, "member_rank": None}
+    skip = False
     async with httpx.AsyncClient() as client:
         response = await client.get(url)
 
-    contents = response.json()
-    # Check if BRVNS is the main ORG
-    if contents["data"]["organization"]["name"] == "Blue Ravens Inc":
-        membership["main_member"] = True
-        membership["member_rank"] = contents["data"]["organization"]["stars"]
-    else:
-        membership["main_member"] = False
-        membership["member_rank"] = contents["data"]["organization"]["stars"]
+    if str(response) != "<Response [200 OK]>":
+        logger.error(response)
+        skip = True
+
+    if not skip:
+        contents = response.json()
+        # Check if BRVNS is the main ORG
+        try:
+            if contents["data"]["organization"]["name"] == "Blue Ravens Inc":
+                membership["main_member"] = True
+                membership["member_rank"] = contents["data"]["organization"]["stars"]
+            else:
+                membership["main_member"] = False
+                membership["member_rank"] = contents["data"]["organization"]["stars"]
+        except TypeError as error:
+            logger.error(error)
 
     return membership
