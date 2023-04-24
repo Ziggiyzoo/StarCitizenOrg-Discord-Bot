@@ -36,7 +36,6 @@ class BackgroundTasks(commands.Cog):
         for member_id in id_list:
             user_info = await database_connection.get_user_verification_info(member_id)
             if user_info["verification_step"] == "VERIFIED":
-                logger.info("Updating " + user_info["handle"])
                 membership = await rsi_lookup.get_user_membership_info(
                     user_info["handle"]
                 )
@@ -88,6 +87,7 @@ class BackgroundTasks(commands.Cog):
                         logger.error(error)
 
                     logger.info(time.time() - start2)
+                    time.sleep(5)
 
         end = time.time()
         time_taken = round(end - start, 2)
