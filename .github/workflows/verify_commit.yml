@@ -110,10 +110,10 @@ jobs:
           SC_API_KEY: ${{ secrets.SC_API_KEY }}
 
         run: |
+          poetry run python -m pytest \
           --env TOKEN=${{ secrets.TEST_DISCORDTOKEN }} \
           --env SC_API_KEY=${{ secrets.SC_API_KEY }} \
           --volume /var/secrets/firebase_secret.json:/var/secrets/firebase_secret.json:ro \
-          poetry run python -m pytest
 
   build_and_run_image:
     name: "Build the Project as an Image and Run it as a Container"
