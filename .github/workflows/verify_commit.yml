@@ -167,10 +167,13 @@ jobs:
 
       - name: Set Variables
         id: variables
+        env:
+          FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
         run: |
           echo "datetime=$(date +%Y%m%dT%H%M%SZ)" >> $GITHUB_OUTPUT
           echo "userid=$(id -u)" >> $GITHUB_OUTPUT
           echo "groupid=$(id -g)" >> $GITHUB_OUTPUT
+          echo "${FIREBASE_SECRET}" > $(pwd)/firebase_secret.json
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
@@ -205,6 +208,7 @@ jobs:
       - name: Run application
         env:
           TOKEN: ${{ secrets.TEST_DISCORDTOKEN }}
+          SC_API_KEY: ${{ secrets.SC_API_KEY }}
         timeout-minutes: 2
         continue-on-error: true
         run: |

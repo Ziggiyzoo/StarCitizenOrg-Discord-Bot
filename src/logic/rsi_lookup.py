@@ -36,7 +36,6 @@ async def get_rsi_handle_info(rsi_handle, verification_code):
     async with httpx.AsyncClient() as client:
         response = await client.get(url)
     contents = response.json()
-
     if verification_code in contents["data"]["profile"]["bio"]:
         return True
 
@@ -59,6 +58,7 @@ async def get_user_membership_info(rsi_handle):
 
     if not skip:
         contents = response.json()
+        logger.info(contents)
         # Check if BRVNS is the main ORG
         try:
             if contents["data"]["organization"]["name"] == "Blue Ravens Inc":

@@ -33,7 +33,7 @@ class SlashBrvns(commands.Cog):
 
     # pylint: disable=no-member
     @commands.slash_command(
-        name="verify_discord", descriptions="Bind discord user to RSI Account."
+        name="verify-discord", descriptions="Bind discord user to RSI Account."
     )
     async def verify_discord(self, ctx, rsi_handle: discord.Option(str)):
         """
@@ -46,7 +46,7 @@ class SlashBrvns(commands.Cog):
 
         if user_info["verification_step"] == "VERIFIED":
             await ctx.respond(
-                "Your RSI Handle and Discord are already bound.", ephemeral=True
+                "Your RSI Handle and Discord are already bound.",
             )
 
         elif user_info["verification_step"] == "IN PROGRESS":
@@ -60,13 +60,14 @@ class SlashBrvns(commands.Cog):
                 await ctx.author.remove_roles(
                     discord.utils.get(ctx.guild.roles, name="Unverified")
                 )
-                await ctx.author.edit(nick=rsi_handle)
+                try:
+                    await ctx.author.edit(nick=rsi_handle)
+                except discord.errors.Forbidden as error:
+                    logger.error(error)
                 await database_connection.update_bound_user(author_id, "VERIFIED")
                 await ctx.respond(
                     "Thank you for binding your RSI and Discord accounts."
-                    + " You can now verify your membership"
-                    + " in this org with the slash command: '/verify_org_membership'",
-                    ephemeral=True,
+                    + "Please use /update-roles to get your roles update in the server."
                 )
 
             else:
@@ -74,7 +75,6 @@ class SlashBrvns(commands.Cog):
                     "Please Make sure that you have added the verification code to your RSI Profile BIO."
                     + "\nYour code is "
                     + user_info["verification_code"],
-                    ephemeral=True,
                 )
         else:
             valid_handle = await rsi_lookup.check_rsi_handle(rsi_handle)
@@ -98,16 +98,16 @@ class SlashBrvns(commands.Cog):
                 )
 
     @commands.slash_command(
-        name="verify_org_membership",
-        descriptions="Verify your membership and role within the BRVNS Org.",
+        name="update-roles",
+        descriptions="Update your roles and rank in the discord if any changes have been made.",
     )
-    async def verify_membership(self, ctx):
+    async def update_roles(self, ctx):
         """
         Verify if the user is a member of the BRVNS Org and assign roles accordingly.
         """
         author_id: int = ctx.author.id
         user_info = await database_connection.get_user_verification_info(author_id)
-        slash_logic.update_users_roles([user_info], self.bot, ctx)
+        await slash_logic.update_users_roles([user_info], self.bot)
 
     @commands.slash_command(name="ping", description="Return the bot latency.")
     async def ping(self, ctx):

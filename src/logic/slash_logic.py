@@ -24,7 +24,7 @@ async def signup_string(author_name: str):
     return string_value
 
 
-async def update_users_roles(user_list, bot, ctx):
+async def update_users_roles(user_list, bot):
     """
     Update a users roles
     """
@@ -75,6 +75,3 @@ async def update_users_roles(user_list, bot, ctx):
                 except AttributeError as error:
                     logger.error(error)
                 time.sleep(5)
-
-        if ctx is not None:
-            ctx.respond("Roles have been updated.")
