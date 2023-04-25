@@ -17,7 +17,7 @@ async def check_rsi_handle(rsi_handle):
     """
     Check if the given RSI handle is valid
     """
-    url = f"https://api.starcitizen-api.com/{SC_API_KEY}/v1/auto/user/{rsi_handle}"
+    url = f"https://api.starcitizen-api.com/{SC_API_KEY}/v1/live/user/{rsi_handle}"
     async with httpx.AsyncClient() as client:
         response = await client.get(url)
     contents = response.json()
@@ -38,7 +38,6 @@ async def get_rsi_handle_info(rsi_handle, verification_code):
     except httpx.ReadTimeout as error:
         logger.error("Get RSI Handle Info threw: %s ", error)
     contents = response.json()
-    logger.info(contents)
     if contents["data"] is not None:
         if verification_code in contents["data"]["profile"]["bio"]:
             return True

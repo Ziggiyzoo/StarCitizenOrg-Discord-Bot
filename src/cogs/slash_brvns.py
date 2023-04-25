@@ -40,7 +40,6 @@ class SlashBrvns(commands.Cog):
         Verify if the discord member is a member of the RSI Org.
         """
         author_id: int = ctx.author.id
-        ctx.response.defer()
         # Check if this is the first time the user has done this.
         user_info = await database_connection.get_user_verification_info(author_id)
 
