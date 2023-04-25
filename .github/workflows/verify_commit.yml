@@ -105,7 +105,14 @@ jobs:
           poetry install
 
       - name: Run Unit Tests
+        env:
+          TOKEN: ${{ secrets.TEST_DISCORDTOKEN }}
+          SC_API_KEY: ${{ secrets.SC_API_KEY }}
+
         run: |
+          --env TOKEN=${{ secrets.TEST_DISCORDTOKEN }} \
+          --env SC_API_KEY=${{ secrets.SC_API_KEY }} \
+          --volume /var/secrets/firebase_secret.json:/var/secrets/firebase_secret.json:ro \
           poetry run python -m pytest
 
   build_and_run_image:
