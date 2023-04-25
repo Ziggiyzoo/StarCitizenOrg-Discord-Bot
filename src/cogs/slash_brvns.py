@@ -54,6 +54,10 @@ class SlashBrvns(commands.Cog):
                 user_info["handle"], user_info["verification_code"]
             )
             if success:
+                await ctx.respond(
+                    "Thank you for binding your RSI and Discord accounts."
+                    + "Please use /update-roles to get your roles update in the server.",
+                )
                 await ctx.author.add_roles(
                     discord.utils.get(ctx.guild.roles, name="Verified")
                 )
@@ -65,13 +69,8 @@ class SlashBrvns(commands.Cog):
                 except discord.errors.Forbidden as error:
                     logger.error(error)
                 await database_connection.update_bound_user(author_id, "VERIFIED")
-                await ctx.respond(
-                    "Thank you for binding your RSI and Discord accounts."
-                    + "Please use /update-roles to get your roles update in the server.",
-                )
-
             else:
-                await ctx.followup.send(
+                await ctx.respond(
                     "Please Make sure that you have added the verification code to your RSI Profile BIO."
                     + "\nYour code is "
                     + user_info["verification_code"],
