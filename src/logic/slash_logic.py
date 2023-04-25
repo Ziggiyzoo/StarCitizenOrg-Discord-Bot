@@ -37,16 +37,16 @@ async def update_users_roles(user_list, bot, ctx):
                 else:
                     membership_index = 1
 
-                rank_index = int(membership["member_rank"]) - 1
+                rank_index = int(membership["member_rank"])
 
                 membership_list = ["BRVNS Member", "BRVNS Affiliate"]
                 rank_list = [
-                    "Board Members",
-                    "Directors",
-                    "Managers",
-                    "Senior",
-                    "Junior",
                     "Prospective Employee",
+                    "Junior",
+                    "Senior",
+                    "Managers",
+                    "Directors",
+                    "Board Members",
                 ]
 
                 # Update Org Membership and Ranks
