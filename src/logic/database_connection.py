@@ -92,6 +92,7 @@ async def add_user_to_bound(author_id, rsi_handle, validation_string):
     bound_user_ref.set(
         {
             "handle": rsi_handle,
+            "user_id": author_id,
             "verification_code": validation_string,
             "verification_step": "IN PROGRESS",
         }

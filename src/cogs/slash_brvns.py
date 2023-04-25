@@ -106,8 +106,8 @@ class SlashBrvns(commands.Cog):
         Verify if the user is a member of the BRVNS Org and assign roles accordingly.
         """
         author_id: int = ctx.author.id
-
-        slash_logic.update_users_roles([author_id], self.bot, ctx)
+        user_info = await database_connection.get_user_verification_info(author_id)
+        slash_logic.update_users_roles([user_info], self.bot, ctx)
 
     @commands.slash_command(name="ping", description="Return the bot latency.")
     async def ping(self, ctx):

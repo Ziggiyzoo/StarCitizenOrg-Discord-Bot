@@ -32,7 +32,12 @@ class BackgroundTasks(commands.Cog):
         logger.info("Running role update task.")
         start = time.time()
         id_list = await database_connection.get_verified_user_list()
-        await slash_logic.update_users_roles(id_list, self.bot, None)
+        user_list = []
+        for member_id in id_list:
+            user_list.append(
+                await database_connection.get_user_verification_info(member_id)
+            )
+        await slash_logic.update_users_roles(user_list, self.bot, None)
         end = time.time()
         time_taken = round(end - start, 2)
         channel = self.bot.get_channel(1071924147501928558)

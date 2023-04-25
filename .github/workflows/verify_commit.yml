@@ -125,7 +125,7 @@ jobs:
           echo "datetime=$(date +%Y%m%dT%H%M%SZ)" >> $GITHUB_OUTPUT
           echo "userid=$(id -u)" >> $GITHUB_OUTPUT
           echo "groupid=$(id -g)" >> $GITHUB_OUTPUT
-          echo "${FIREBASE_SECRET}" > $(pwd)/firebase_secret.json
+          echo "${FIREBASE_SECRET}" > /var/secrets/firebase_secret.json
 
       - name: Test Buildah Build
         run: |
@@ -143,7 +143,7 @@ jobs:
           timeout 60 podman run \
           --env TOKEN=${{ secrets.TEST_DISCORDTOKEN }} \
           --env SC_API_KEY=${{ secrets.SC_API_KEY }} \
-          --volume $(pwd)/firebase_secret.json:/var/secrets/firebase_secret.json:ro \
+          --volume /var/secrets/firebase_secret.json:/var/secrets/firebase_secret.json:ro \
           ghcr.io/ziggiyzoo/brvns-discord-bot:gh-${{ steps.variables.outputs.datetime }} \
           || code=$?; if [[ $code -ne 124 && $code -ne 0 ]]; then exit $code; fi
 

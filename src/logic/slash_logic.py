@@ -6,7 +6,7 @@ import time
 
 import discord
 
-from src.logic import database_connection, rsi_lookup, resources_logic
+from src.logic import rsi_lookup, resources_logic
 
 logger = logging.getLogger()
 logger.setLevel("INFO")
@@ -24,12 +24,11 @@ async def signup_string(author_name: str):
     return string_value
 
 
-async def update_users_roles(id_list, bot, ctx):
+async def update_users_roles(user_list, bot, ctx):
     """
     Update a users roles
     """
-    for member_id in id_list:
-        user_info = await database_connection.get_user_verification_info(member_id)
+    for user_info in user_list:
         if user_info["verification_step"] == "VERIFIED":
             membership = await rsi_lookup.get_user_membership_info(user_info["handle"])
             if membership["main_member"] is not None:
@@ -51,10 +50,9 @@ async def update_users_roles(id_list, bot, ctx):
                 ]
 
                 # Update Org Membership and Ranks
-                start2 = time.time()
                 try:
                     guild = bot.get_guild(997138062381416589)
-                    member = guild.get_member(int(member_id))
+                    member = guild.get_member(int(user_info["user_id"]))
                     await member.add_roles(
                         *[
                             discord.utils.get(
@@ -76,8 +74,6 @@ async def update_users_roles(id_list, bot, ctx):
                         )
                 except AttributeError as error:
                     logger.error(error)
-
-                logger.info(time.time() - start2)
                 time.sleep(5)
 
         if ctx is not None:
