@@ -40,11 +40,12 @@ class SlashBrvns(commands.Cog):
         Verify if the discord member is a member of the RSI Org.
         """
         author_id: int = ctx.author.id
+        await ctx.defer()
         # Check if this is the first time the user has done this.
         user_info = await database_connection.get_user_verification_info(author_id)
 
         if user_info["verification_step"] == "VERIFIED":
-            await ctx.respond(
+            await ctx.followup.send(
                 "Your RSI Handle and Discord are already bound.",
                 ephemeral=True,
             )
@@ -54,7 +55,7 @@ class SlashBrvns(commands.Cog):
                 user_info["handle"], user_info["verification_code"]
             )
             if success:
-                await ctx.respond(
+                await ctx.followup.send(
                     "Thank you for binding your RSI and Discord accounts."
                     + "Please use /update-roles to get your roles update in the server.",
                     ephemeral=True,
@@ -71,7 +72,7 @@ class SlashBrvns(commands.Cog):
                     logger.error(error)
                 await database_connection.update_bound_user(author_id, "VERIFIED")
             else:
-                await ctx.respond(
+                await ctx.followup.send(
                     "Please Make sure that you have added the verification code to your RSI Profile BIO."
                     + "\nYour code is "
                     + user_info["verification_code"],
@@ -85,7 +86,7 @@ class SlashBrvns(commands.Cog):
                 await database_connection.add_user_to_bound(
                     author_id, valid_handle, validation_string
                 )
-                await ctx.respond(
+                await ctx.followup.send(
                     "Your RSI Handle is Valid, please put the following in your Bio: "
                     + validation_string
                     + "\n\nPlease run this command again after you have done this.",
@@ -93,7 +94,7 @@ class SlashBrvns(commands.Cog):
                 )
 
             else:
-                await ctx.respond(
+                await ctx.followup.send(
                     "The RSI Handle you entered is invalid, please try again.",
                     ephemeral=True,
                 )
