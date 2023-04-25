@@ -60,12 +60,14 @@ class SlashBrvns(commands.Cog):
                 await ctx.author.remove_roles(
                     discord.utils.get(ctx.guild.roles, name="Unverified")
                 )
-                await ctx.author.edit(nick=rsi_handle)
+                try:
+                    await ctx.author.edit(nick=rsi_handle)
+                except discord.errors.Forbidden as error:
+                    logger.error(error)
                 await database_connection.update_bound_user(author_id, "VERIFIED")
                 await ctx.respond(
                     "Thank you for binding your RSI and Discord accounts."
-                    + " You can now verify your membership"
-                    + " in this org with the slash command: '/verify_org_membership'",
+                    + "Please use /update-roles to get your roles update in the server."
                 )
 
             else:
@@ -105,7 +107,7 @@ class SlashBrvns(commands.Cog):
         """
         author_id: int = ctx.author.id
         user_info = await database_connection.get_user_verification_info(author_id)
-        slash_logic.update_users_roles([user_info], self.bot, ctx)
+        await slash_logic.update_users_roles([user_info], self.bot)
 
     @commands.slash_command(name="ping", description="Return the bot latency.")
     async def ping(self, ctx):
