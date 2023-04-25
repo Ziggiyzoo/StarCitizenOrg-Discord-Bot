@@ -71,7 +71,7 @@ class SlashBrvns(commands.Cog):
                 )
 
             else:
-                ctx.followup.send(
+                await ctx.followup.send(
                     "Please Make sure that you have added the verification code to your RSI Profile BIO."
                     + "\nYour code is "
                     + user_info["verification_code"],
