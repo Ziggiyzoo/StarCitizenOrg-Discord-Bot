@@ -35,13 +35,13 @@ async def get_rsi_handle_info(rsi_handle, verification_code):
         async with httpx.AsyncClient() as client:
             response = await client.get(url)
     except httpx.ReadTimeout as error:
-        logger.error("Get RSI Handle Info threw: %s " % error)
+        logger.error("Get RSI Handle Info threw: %s ", error)
     contents = response.json()
     logger.info(contents)
     if contents["data"] is not None:
         if verification_code in contents["data"]["profile"]["bio"]:
             return True
-    logger.warn("Star Citizen API Returned empty Data for %s" % rsi_handle)
+    logger.warning("Star Citizen API Returned empty Data for %s", rsi_handle)
     return False
 
 
