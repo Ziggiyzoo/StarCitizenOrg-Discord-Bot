@@ -65,7 +65,7 @@ class SlashBrvns(commands.Cog):
                 await ctx.respond(
                     "Thank you for binding your RSI and Discord accounts."
                     + " You can now verify your membership"
-                    + " in this org with the slash command: '/verify-org'",
+                    + " in this org with the slash command: '/verify_org_membership'",
                     ephemeral=True,
                 )
 
@@ -107,39 +107,7 @@ class SlashBrvns(commands.Cog):
         """
         author_id: int = ctx.author.id
 
-        # Get Spectrum ID from database. And check if they are verified.
-        user_info = await database_connection.get_user_verification_info(author_id)
-
-        if user_info["verification_step"] == "VERIFIED":
-            membership = await rsi_lookup.get_user_membership(user_info["handle"])
-            rank = await rsi_lookup.get_user_rank(user_info["handle"])
-
-            # Check the org membership status and rank
-            if membership == "Org Member":
-                await ctx.author.add_roles(
-                    discord.utils.get(ctx.guild.roles, name="BRVNS Member")
-                )
-                await ctx.author.add_roles(
-                    discord.utils.get(ctx.guild.roles, name=rank)
-                )
-                await ctx.respond("Your roles have been updated!", ephemeral=True)
-            elif membership == "Org Affiliate":
-                await ctx.author.add_roles(
-                    discord.utils.get(ctx.guild.roles, name="BRVNS Affiliate")
-                )
-                await ctx.author.add_roles(
-                    discord.utils.get(ctx.guild.roles, name=rank)
-                )
-                await ctx.respond("Your roles have been updated!", ephemeral=True)
-            else:
-                # User not a member
-                await ctx.respond(
-                    user_info["handle"]
-                    + ". You are not a member of the Blue Ravens Org on Spectrum.",
-                    ephemeral=True,
-                )
-
-        # Assig the correct roles
+        slash_logic.update_users_roles([author_id], self.bot, ctx)
 
     @commands.slash_command(name="ping", description="Return the bot latency.")
     async def ping(self, ctx):
