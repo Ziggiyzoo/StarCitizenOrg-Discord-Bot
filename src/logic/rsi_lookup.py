@@ -36,8 +36,9 @@ async def get_rsi_handle_info(rsi_handle, verification_code):
     async with httpx.AsyncClient() as client:
         response = await client.get(url)
     contents = response.json()
-    if verification_code in contents["data"]["profile"]["bio"]:
-        return True
+    if contents["data"] is not None:
+        if verification_code in contents["data"]["profile"]["bio"]:
+            return True
 
     return False
 
