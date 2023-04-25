@@ -46,6 +46,7 @@ class SlashBrvns(commands.Cog):
         if user_info["verification_step"] == "VERIFIED":
             await ctx.respond(
                 "Your RSI Handle and Discord are already bound.",
+                ephemeral=True,
             )
 
         elif user_info["verification_step"] == "IN PROGRESS":
@@ -56,6 +57,7 @@ class SlashBrvns(commands.Cog):
                 await ctx.respond(
                     "Thank you for binding your RSI and Discord accounts."
                     + "Please use /update-roles to get your roles update in the server.",
+                    ephemeral=True,
                 )
                 await ctx.author.add_roles(
                     discord.utils.get(ctx.guild.roles, name="Verified")
@@ -64,7 +66,7 @@ class SlashBrvns(commands.Cog):
                     discord.utils.get(ctx.guild.roles, name="Unverified")
                 )
                 try:
-                    await ctx.author.edit(nick=rsi_handle)
+                    await ctx.author.edit(nick=user_info["handle"])
                 except discord.errors.Forbidden as error:
                     logger.error(error)
                 await database_connection.update_bound_user(author_id, "VERIFIED")
@@ -73,6 +75,7 @@ class SlashBrvns(commands.Cog):
                     "Please Make sure that you have added the verification code to your RSI Profile BIO."
                     + "\nYour code is "
                     + user_info["verification_code"],
+                    ephemeral=True,
                 )
         else:
             valid_handle = await rsi_lookup.check_rsi_handle(rsi_handle)
