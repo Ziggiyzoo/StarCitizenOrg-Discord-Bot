@@ -2,8 +2,11 @@
 BRVNS Discord Bot Logic
 """
 import logging
+import time
 
-from src.logic import resources_logic
+import discord
+
+from src.logic import rsi_lookup, resources_logic
 
 logger = logging.getLogger()
 logger.setLevel("INFO")
@@ -19,3 +22,59 @@ async def signup_string(author_name: str):
     logger.info(string_value)
 
     return string_value
+
+
+async def update_users_roles(user_list, bot, ctx):
+    """
+    Update a users roles
+    """
+    for user_info in user_list:
+        if user_info["verification_step"] == "VERIFIED":
+            membership = await rsi_lookup.get_user_membership_info(user_info["handle"])
+            if membership["main_member"] is not None:
+                if membership["main_member"]:
+                    membership_index = 0
+                else:
+                    membership_index = 1
+
+                rank_index = int(membership["member_rank"]) - 1
+
+                membership_list = ["BRVNS Member", "BRVNS Affiliate"]
+                rank_list = [
+                    "Board Members",
+                    "Directors",
+                    "Managers",
+                    "Senior",
+                    "Junior",
+                    "Prospective Employee",
+                ]
+
+                # Update Org Membership and Ranks
+                try:
+                    guild = bot.get_guild(997138062381416589)
+                    member = guild.get_member(int(user_info["user_id"]))
+                    await member.add_roles(
+                        *[
+                            discord.utils.get(
+                                guild.roles, name=membership_list[membership_index]
+                            ),
+                            discord.utils.get(guild.roles, name=rank_list[rank_index]),
+                        ]
+                    )
+                    await member.remove_roles(
+                        discord.utils.get(
+                            guild.roles, name=membership_list[membership_index - 1]
+                        )
+                    )
+                    for i in [1, 2, 3, 4, 5]:
+                        await member.remove_roles(
+                            discord.utils.get(
+                                guild.roles, name=rank_list[rank_index - i]
+                            )
+                        )
+                except AttributeError as error:
+                    logger.error(error)
+                time.sleep(5)
+
+        if ctx is not None:
+            ctx.respond("Roles have been updated.")
