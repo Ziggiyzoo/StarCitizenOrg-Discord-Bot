@@ -79,10 +79,10 @@ class SlashBrvns(commands.Cog):
         else:
             valid_handle = await rsi_lookup.check_rsi_handle(rsi_handle)
 
-            if valid_handle:
+            if valid_handle is not None:
                 validation_string = str(resources_logic.create_random_string())
                 await database_connection.add_user_to_bound(
-                    author_id, rsi_handle, validation_string
+                    author_id, valid_handle, validation_string
                 )
                 await ctx.respond(
                     "Your RSI Handle is Valid, please put the following in your Bio: "
