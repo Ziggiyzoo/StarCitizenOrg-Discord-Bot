@@ -40,7 +40,7 @@ class SlashBrvns(commands.Cog):
         Verify if the discord member is a member of the RSI Org.
         """
         author_id: int = ctx.author.id
-
+        ctx.response.defer()
         # Check if this is the first time the user has done this.
         user_info = await database_connection.get_user_verification_info(author_id)
 
@@ -67,11 +67,11 @@ class SlashBrvns(commands.Cog):
                 await database_connection.update_bound_user(author_id, "VERIFIED")
                 await ctx.respond(
                     "Thank you for binding your RSI and Discord accounts."
-                    + "Please use /update-roles to get your roles update in the server."
+                    + "Please use /update-roles to get your roles update in the server.",
                 )
 
             else:
-                ctx.respond(
+                ctx.followup.send(
                     "Please Make sure that you have added the verification code to your RSI Profile BIO."
                     + "\nYour code is "
                     + user_info["verification_code"],

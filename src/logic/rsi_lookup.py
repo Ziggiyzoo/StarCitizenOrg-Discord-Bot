@@ -20,7 +20,6 @@ async def check_rsi_handle(rsi_handle):
     url = f"https://api.starcitizen-api.com/{SC_API_KEY}/v1/live/user/{rsi_handle}"
     async with httpx.AsyncClient() as client:
         response = await client.get(url)
-
     if str(response) == "<Response [200 OK]>":
         return True
 
@@ -32,13 +31,17 @@ async def get_rsi_handle_info(rsi_handle, verification_code):
     Get the info on the RSI Users About me.
     """
     url = f"https://api.starcitizen-api.com/{SC_API_KEY}/v1/live/user/{rsi_handle}"
-
-    async with httpx.AsyncClient() as client:
-        response = await client.get(url)
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url)
+    except httpx.ReadTimeout as error:
+        logger.error("Get RSI Handle Info threw: %s ", error)
     contents = response.json()
-    if verification_code in contents["data"]["profile"]["bio"]:
-        return True
-
+    logger.info(contents)
+    if contents["data"] is not None:
+        if verification_code in contents["data"]["profile"]["bio"]:
+            return True
+    logger.warning("Star Citizen API Returned empty Data for %s", rsi_handle)
     return False
 
 
@@ -58,7 +61,6 @@ async def get_user_membership_info(rsi_handle):
 
     if not skip:
         contents = response.json()
-        logger.info(contents)
         # Check if BRVNS is the main ORG
         try:
             if contents["data"]["organization"]["name"] == "Blue Ravens Inc":
