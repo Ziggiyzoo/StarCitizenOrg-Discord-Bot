@@ -22,7 +22,7 @@ async def check_rsi_handle(rsi_handle):
         response = await client.get(url)
     contents = response.json()
     if str(response) == "<Response [200 OK]>" and contents["data"] is not None:
-        return contents["data]"]["profile"]["handle"]
+        return contents["data"]["profile"]["handle"]
 
     return None
 
